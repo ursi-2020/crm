@@ -5,17 +5,13 @@ This application manage all data from customers.
 It includes:
  - firstName
  - lastName
-## JSON API
 
-### /customer
+# JSON API
 
-{ 
-  firstName:"string",
-  lastName:"string"
-}
-### Show all customers
+## Show all customers
 
 Get the details of all customers registered in the CRM db
+
 **Service name** : `crm`
 
 **URL** : `/customer`
@@ -25,11 +21,9 @@ Get the details of all customers registered in the CRM db
 **Auth required** : NO
 
 
-**Success Response:**
+**Success Response code:** `200 OK`
 
-**Code** : `200 OK`
-
-**Content examples**
+**Content examples:**
 
 
 ```json
