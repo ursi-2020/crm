@@ -1,3 +1,15 @@
-# example-app
-Hi
-it's an example app for the best project of the year
+# CRM-app
+---
+This application manage all data from customers.
+It includes:
+ - firstName
+ - lastName
+## JSON API
+---
+### /customer
+
+{ 
+  firstName:"string",
+  lastName:"string"
+}
+
