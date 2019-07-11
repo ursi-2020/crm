@@ -16,5 +16,14 @@ def getCustomerInfo(request):
 
 
 def creatCustomer(request):
-    Customer(firstName="Sarah", lastName="Belmok").save()
-    return HttpResponse("New user created")
+    res = api.send_request('test_app', '/create_customer')
+    return HttpResponse(res)
+
+
+def testApp(request):
+    res = api.send_request('test_app', '/customers')
+    return HttpResponse(res)
+
+def addToScheduler(request):
+    res = api.post_request('scheduler', '/schedule/add', '{"target_url"="/create_customer", "target_app"="test_app", "time"="3", "recurrence"="1", "data"=""}')
+    return HttpResponse(res)
