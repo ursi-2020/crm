@@ -13,8 +13,7 @@ def customer(request):
         customers_list = list(customers)  # important: convert the QuerySet to a list object
         return JsonResponse(customers_list, safe=False)
     elif request.method == 'POST':
-        print("SALUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUT")
-        print(request.POST.get("arg"))
+        # convert json to dictionary
         arg = json.loads(request.POST.get("arg"))
         c = Customer(firstName=arg['firstName'], lastName=arg['lastName'], fidelityPoint=0)
         c.save()
