@@ -19,3 +19,4 @@ class Vente(models.Model):
 class Customer(models.Model):
     firstName = models.CharField(max_length=200)
     lastName = models.CharField(max_length=200)
+    fidelityPoint = models.IntegerField(default=0)
