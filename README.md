@@ -5,6 +5,7 @@ This application manage all data from customers.
 It includes:
  - firstName
  - lastName
+ - fidelityPoint
 
 # JSON API
 
