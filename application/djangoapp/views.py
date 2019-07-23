@@ -1,10 +1,13 @@
 from django.http import HttpResponse, QueryDict
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from apipkg import api_manager as api
 from .models import *
 import json
 
+def index(request):
+    return render(request, 'djangoapp/index.html')
 
 @csrf_exempt
 def customer(request):
@@ -27,5 +30,6 @@ def promo(request):
 
 def add_promo(request):
     b = '{"isFlat":true, "flat":0, "percent":45, "productId":1}'
-    res = api.post_request('promo', '/promo', '{"isFlat":true, "flat":0, "percent":45, "productId":1}')
+    res = api.post_request('gestion-promotion', '/promo', 'caca')
     return HttpResponse(res)
+
