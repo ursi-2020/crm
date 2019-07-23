@@ -106,3 +106,4 @@ venv.bak/
 # testing app
 old_crm/
 test_app/
+gestion-promotion/
