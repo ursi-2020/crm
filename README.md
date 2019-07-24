@@ -63,8 +63,8 @@ Register a new customer in CRM db
 
 
 ```json
-arg={
-      "firstName": "Jacquie",
-      "lastName": "Bloggs"
-    }
+{
+  "firstName": "Jacquie",
+  "lastName": "Bloggs"
+}
 ```

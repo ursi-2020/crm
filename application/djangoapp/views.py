@@ -17,7 +17,9 @@ def customer(request):
         return JsonResponse(customers_list, safe=False)
     elif request.method == 'POST':
         # convert json to dictionary
-        arg = json.loads(request.POST.get("arg"))
+
+        body_unicode = request.body.decode('utf-8')
+        arg = json.loads(body_unicode)
         c = Customer(firstName=arg['firstName'], lastName=arg['lastName'], fidelityPoint=0)
         c.save()
         return HttpResponse("added")
@@ -30,6 +32,10 @@ def promo(request):
 
 def add_promo(request):
     b = '{"isFlat":true, "flat":0, "percent":45, "productId":1}'
-    res = api.post_request('gestion-promotion', '/promo', 'caca')
+    res = api.post_request('gestion-promotion', '/promo', 'test')
     return HttpResponse(res)
 
+def test(request):
+    j = '{"firstName":"Quentin", "lastName":"Reynaud"}'
+    api.post_request('crm', 'customer/', j)
+    return HttpResponse("created")
