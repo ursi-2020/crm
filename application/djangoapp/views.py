@@ -27,12 +27,12 @@ def customer(request):
         return HttpResponse("Bad request")
 
 def promo(request):
-    res = api.send_request('gestion-promotion', '/promo')
+    res = api.send_request('gestion-promotion', 'api/v1/promo')
     return HttpResponse(res)
 
 def add_promo(request):
-    b = '{"isFlat":true, "flat":0, "percent":45, "productId":1}'
-    res = api.post_request('gestion-promotion', '/promo', 'test')
+    b = {"isFlat":True, "flat":0, "percent":45, "productId":1}
+    res = api.post_request('gestion-promotion', 'api/v1/promo', body=b)
     return HttpResponse(res)
 
 def test(request):
