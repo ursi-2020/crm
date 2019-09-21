@@ -1,5 +1,6 @@
 from django.http import HttpResponse, QueryDict
 from django.http import JsonResponse
+from django.core import serializers
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from apipkg import api_manager as api
@@ -25,6 +26,20 @@ def customer(request):
         return HttpResponse("added")
     else:
         return HttpResponse("Bad request")
+
+
+def customer_by_ID(request, userId):
+    try:
+        customer = Customer.objects.filter(id=userId).values()
+    except Customer.DoesNotExist:
+        return JsonResponse({"error": "user not found"})
+
+    if customer:
+        print(customer)
+        customer = list(customer)  # important: convert the QuerySet to a list object
+        return JsonResponse(customer, safe=False)
+
+
 
 def promo(request):
     res = api.send_request('gestion-promotion', 'api/v1/promo')
