@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sélectionner un fichier</title>
+</head>
+<body>
+
+<h1>CRM app</h1>
+<h3>Sélectionner un fichier</h3>
+
+<form action="{% url 'update_db' %}" method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Charger les données</button>
+</form>
+
+</body>
+</html>

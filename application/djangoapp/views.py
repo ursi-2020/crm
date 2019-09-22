@@ -4,6 +4,8 @@ from django.core import serializers
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from apipkg import api_manager as api
+
+from .forms import *
 from .models import *
 import json
 
@@ -62,12 +64,15 @@ def update_db(request):
             parsed_json = (json.loads(data))
             '''print(parsed_json)'''
             Customer.objects.all().delete()
-            for client in parsed_json['clients'] :
-                new_client = Customer(firstname = client['Prenom'], lastname = client['Nom'], fidelityPoint = client['Credti'], payment = client['paiement'], account = client['compte'])
+            for client in parsed_json['clients']:
+                if 'Compte' in client:
+                    new_client = Customer(lastName = client['Nom'], firstName = client['Prenom'], fidelityPoint = client['Credit'], payment = client['Paiement'], account = client['Compte'])
+                else:
+                    new_client = Customer(lastName=client['Nom'], firstName=client['Prenom'],fidelityPoint=client['Credit'], payment=client['Paiement'])
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
             data = {"Clients_json": SomeModel_json}
             return JsonResponse(data)
     else:
         client = CustomerForm()
-        return render(request,"polls/index.html",{'form': client})
+        return render(request, 'djangoapp/update_db.html',{'form': client})
