@@ -39,8 +39,6 @@ def customer_by_ID(request, userId):
         customer = list(customer)  # important: convert the QuerySet to a list object
         return JsonResponse(customer, safe=False)
 
-
-
 def promo(request):
     res = api.send_request('gestion-promotion', 'api/v1/promo')
     return HttpResponse(res)
@@ -54,3 +52,22 @@ def test(request):
     j = '{"firstName":"Quentin", "lastName":"Reynaud"}'
     api.post_request('crm', 'customer/', j)
     return HttpResponse("created")
+
+
+def update_db(request):
+    if request.method == 'POST':
+        customer = CustomerForm(request.POST, request.FILES)
+        if customer.is_valid():
+            data = request.FILES['file'].read()
+            parsed_json = (json.loads(data))
+            '''print(parsed_json)'''
+            Customer.objects.all().delete()
+            for client in parsed_json['clients'] :
+                new_client = Customer(firstname = client['Prenom'], lastname = client['Nom'], fidelityPoint = client['Credti'], payment = client['paiement'], account = client['compte'])
+                new_client.save()
+            SomeModel_json = serializers.serialize("json", Customer.objects.all())
+            data = {"Clients_json": SomeModel_json}
+            return JsonResponse(data)
+    else:
+        client = CustomerForm()
+        return render(request,"polls/index.html",{'form': client})

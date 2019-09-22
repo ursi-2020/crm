@@ -20,3 +20,5 @@ class Customer(models.Model):
     firstName = models.CharField(max_length=200)
     lastName = models.CharField(max_length=200)
     fidelityPoint = models.IntegerField(default=0)
+    payment = models.IntegerField(default=0)
+    account = models.CharField(max_length=10, default="")
