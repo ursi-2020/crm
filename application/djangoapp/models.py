@@ -17,6 +17,7 @@ class Vente(models.Model):
         return 'Vente: {} - {}'.format(self.article.nom, self.date)
 
 class Customer(models.Model):
+    id1 = models.TextField(blank=False)
     firstName = models.CharField(max_length=200)
     lastName = models.CharField(max_length=200)
     fidelityPoint = models.IntegerField(default=0)
