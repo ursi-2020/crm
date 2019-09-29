@@ -17,7 +17,7 @@ Get the details of all customers registered in the CRM db
 
 **Service name** : `crm`
 
-**URL** : `/data`
+**URL** : `api/data`
 
 **Method** : `GET`
 
@@ -56,7 +56,7 @@ Get the details of a customer registered in the CRM db with ID.
 
 **Service name** : `crm`
 
-**URL** : `/data/<id>`
+**URL** : `api/data/<id>`
 
 **Method** : `GET`
 
