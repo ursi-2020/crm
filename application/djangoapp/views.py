@@ -10,7 +10,8 @@ from .models import *
 import json
 
 def index(request):
-    return render(request, 'djangoapp/index.html')
+    customers = Customer.objects.all()
+    return render(request, 'djangoapp/index.html', locals())
 
 @csrf_exempt
 def customer(request):

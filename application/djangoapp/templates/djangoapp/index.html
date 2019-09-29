@@ -3,19 +3,35 @@
 <body>
 
 <h1>CRM app</h1>
-<h3>Promo</h3>
-<p>Send GET request to promo</p>
-<a href="{% url 'promotion' %}">GET</a>
-
-<p>Send POST request to promo</p>
-<a href="{% url 'add_promotion' %}">POST</a>
-
-<h3>CRM</h3>
-<p>GET all customers</p>
-<a href="{% url 'customer_list' %}">GET</a>
-
-<p>Create customer</p>
-<a href="{% url 'test' %}">POST</a>
-
+<p>
+    Le CRM est un référentiel clients pour l’entreprise. Il enregistre les clients. Il calcule les points de fidélité.
+    Il assure la segmentation des clients pour les promotions ciblés.
+</p>
+<p>{{customer}}</p>
+<h3>Importer un fichier dans la base de donnée</h3>
+<a href="{% url 'update_db' %}">Importer clients</a>
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Crédit</th>
+        <th>Payement</th>
+        <th>Compte</th>
+    </tr>
+    {% for o in customers %}
+  <tr>
+    <th>{{ o.pk }}</th>
+    <th>{{ o.firstName }}</th>
+    <th>{{ o.lastName }}</th>
+      <th>{{ o.fidelityPoint }}</th>
+      <th>{{ o.payment }}</th>
+      <th>{{ o.account }}</th>
+  </tr>
+    <tr> {% empty %}
+      <th>Aucun client enregistré</th>
+    </tr>
+    {% endfor %}
+</table>
 </body>
 </html>
