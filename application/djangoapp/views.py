@@ -1,7 +1,7 @@
 from django.http import HttpResponse, QueryDict
 from django.http import JsonResponse
 from django.core import serializers
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from apipkg import api_manager as api
 import uuid
@@ -66,16 +66,15 @@ def update_db(request):
             '''print(parsed_json)'''
             Customer.objects.all().delete()
             for client in parsed_json['clients']:
-                id_1 = uuid.uuid1()
-                print(id_1)
+                idClient = uuid.uuid1()
                 if 'Compte' in client:
-                    new_client = Customer(id1 = id_1, lastName = client['Nom'], firstName = client['Prenom'], fidelityPoint = client['Credit'], payment = client['Paiement'], account = client['Compte'])
+                    new_client = Customer(idClient = idClient, lastName = client['Nom'], firstName = client['Prenom'], fidelityPoint = client['Credit'], payment = client['Paiement'], account = client['Compte'])
                 else:
-                    new_client = Customer(id1 = id_1, lastName=client['Nom'], firstName=client['Prenom'],fidelityPoint=client['Credit'], payment=client['Paiement'])
+                    new_client = Customer(idClient = idClient, lastName=client['Nom'], firstName=client['Prenom'],fidelityPoint=client['Credit'], payment=client['Paiement'])
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
             data = {"Clients_json": SomeModel_json}
-            return JsonResponse(data)
+            return redirect('index')
     else:
         client = CustomerForm()
         return render(request, 'djangoapp/update_db.html',{'form': client})
