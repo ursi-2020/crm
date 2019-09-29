@@ -32,7 +32,7 @@ Get the details of all customers registered in the CRM db
 ```json
 [
   {
-    "id": 1,
+    "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
     "firstName": "Jacquie",
     "lastName": "Bloggs",
     "fidelityPoint": 42,
@@ -40,7 +40,7 @@ Get the details of all customers registered in the CRM db
     "account": "BKN1CST53"
   },
   {
-    "id": 2,
+    "idClient": "a14f4a08-e29e-11e9-a8cb-08002751d198",
     "firstName": "Michelle",
     "lastName": "Bigoudi",
     "fidelityPoint": 69,
@@ -69,15 +69,16 @@ Get the details of a customer registered in the CRM db with ID.
 
 
 ```json
- {
-   "id": 1,
-   "firstName": "Jacquie",
-   "lastName": "Bloggs",
-   "fidelityPoint": 42,
-   "payment": 0,
-   "account": "BKN1CST53"
- }
-  
+[
+     {
+       "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+       "firstName": "Jacquie",
+       "lastName": "Bloggs",
+       "fidelityPoint": 42,
+       "payment": 0,
+       "account": "BKN1CST53"
+     }
+ ]
 ```
 
 
