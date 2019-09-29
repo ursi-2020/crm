@@ -4,7 +4,7 @@ from django.core import serializers
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from apipkg import api_manager as api
-
+import uuid
 from .forms import *
 from .models import *
 import json
@@ -65,10 +65,12 @@ def update_db(request):
             '''print(parsed_json)'''
             Customer.objects.all().delete()
             for client in parsed_json['clients']:
+                id_1 = uuid.uuid1()
+                print(id_1)
                 if 'Compte' in client:
-                    new_client = Customer(lastName = client['Nom'], firstName = client['Prenom'], fidelityPoint = client['Credit'], payment = client['Paiement'], account = client['Compte'])
+                    new_client = Customer(id1 = id_1, lastName = client['Nom'], firstName = client['Prenom'], fidelityPoint = client['Credit'], payment = client['Paiement'], account = client['Compte'])
                 else:
-                    new_client = Customer(lastName=client['Nom'], firstName=client['Prenom'],fidelityPoint=client['Credit'], payment=client['Paiement'])
+                    new_client = Customer(id1 = id_1, lastName=client['Nom'], firstName=client['Prenom'],fidelityPoint=client['Credit'], payment=client['Paiement'])
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
             data = {"Clients_json": SomeModel_json}
