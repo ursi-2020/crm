@@ -9,6 +9,23 @@ It includes:
  - payment
  - account
 
+# Home Page
+
+The CRM home page contains following elements :
+- A table of all clients registered in the data base
+- Link 'Importer clients' alowing go to page for adding clients
+
+**Service name** : `crm`
+
+**URL** : `api`
+
+**Method** : `GET`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
 # JSON API
 
 ## Show all customers
