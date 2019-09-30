@@ -32,13 +32,11 @@ def customer(request):
 
 
 def customer_by_ID(request, userId):
-    try:
-        customer = Customer.objects.filter(id=userId).values()
-    except Customer.DoesNotExist:
+    customer = Customer.objects.filter(id=userId).values()
+    if not customer.exists():
         return JsonResponse({"error": "user not found"})
 
-    if customer:
-        print(customer)
+    else:
         customer = list(customer)  # important: convert the QuerySet to a list object
         return JsonResponse(customer, safe=False)
 
