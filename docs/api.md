@@ -4,10 +4,11 @@
 This application manage all data from customers.
 
 It includes:
- - firstName
- - lastName
- - fidelityPoint
- - payment
+ - uuid
+ - Last name
+ - First name
+ - Credit
+ - Payment
  - account
 
 # Home Page
@@ -50,20 +51,20 @@ Get the details of all customers registered in the CRM db
 ```json
 [
   {
-    "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
-    "firstName": "Jacquie",
-    "lastName": "Bloggs",
-    "fidelityPoint": 42,
-    "payment": 0,
-    "account": "BKN1CST53"
+    "IdClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+    "Nom": "Jacquie",
+    "Prenom": "Bloggs",
+    "Credit": "42,00",
+    "Paiement": 0,
+    "Compte": "BKN1CST53"
   },
   {
-    "idClient": "a14f4a08-e29e-11e9-a8cb-08002751d198",
-    "firstName": "Michelle",
-    "lastName": "Bigoudi",
-    "fidelityPoint": 69,
-    "payment": 3,
-    "account": "BKN1BNT53"
+    "IdClient": "a14f4a08-e29e-11e9-a8cb-08002751d198",
+    "Nom": "Michelle",
+    "Prenom": "Bigoudi",
+    "Credit": "69,00",
+    "Paiement": 3,
+    "Compte": ""
   }
 ]
 ```
@@ -74,7 +75,7 @@ Get the details of a customer registered in the CRM db with ID.
 
 **Service name** : `crm`
 
-**URL** : `api/data/<id>`
+**URL** : `api/data/<slug:IdClient>`
 
 **Method** : `GET`
 
@@ -90,11 +91,11 @@ Get the details of a customer registered in the CRM db with ID.
 [
      {
        "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
-       "firstName": "Jacquie",
-       "lastName": "Bloggs",
-       "fidelityPoint": 42,
-       "payment": 0,
-       "account": "BKN1CST53"
+       "Nom": "Jacquie",
+       "Prenom": "Bloggs",
+       "Credit": "42.00",
+       "Paiement": 0,
+       "Compte": "BKN1CST53"
      }
  ]
 ```
