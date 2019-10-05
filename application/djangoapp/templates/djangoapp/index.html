@@ -12,21 +12,21 @@
 <a href="{% url 'update_db' %}">Importer clients</a>
 <table style="width:100%">
     <tr>
-        <th>ID</th>
-        <th>Prénom</th>
+        <th>IdClient</th>
         <th>Nom</th>
+        <th>Prénom</th>
         <th>Crédit</th>
-        <th>Payement</th>
+        <th>Paiement</th>
         <th>Compte</th>
     </tr>
     {% for o in customers %}
   <tr>
-    <th>{{ o.idClient }}</th>
-    <th>{{ o.firstName }}</th>
-    <th>{{ o.lastName }}</th>
-      <th>{{ o.fidelityPoint }}</th>
-      <th>{{ o.payment }}</th>
-      <th>{{ o.account }}</th>
+    <th>{{ o.IdClient }}</th>
+    <th>{{ o.Nom }}</th>
+    <th>{{ o.Prenom }}</th>
+      <th>{{ o.Credit }}</th>
+      <th>{{ o.Paiement }}</th>
+      <th>{{ o.Compte }}</th>
   </tr>
     <tr> {% empty %}
       <th>Aucun client enregistré</th>

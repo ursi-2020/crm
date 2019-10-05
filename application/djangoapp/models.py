@@ -17,9 +17,9 @@ class Vente(models.Model):
         return 'Vente: {} - {}'.format(self.article.nom, self.date)
 
 class Customer(models.Model):
-    idClient = models.TextField(blank=False)
-    firstName = models.CharField(max_length=200)
-    lastName = models.CharField(max_length=200)
-    fidelityPoint = models.IntegerField(default=0)
-    payment = models.IntegerField(default=0)
-    account = models.CharField(max_length=10, default="")
+    IdClient = models.TextField(blank=False)
+    Nom = models.CharField(max_length=200)
+    Prenom = models.CharField(max_length=200)
+    Credit = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    Paiement = models.IntegerField(default=0)
+    Compte = models.CharField(max_length=10, default="")

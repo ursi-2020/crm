@@ -32,7 +32,7 @@ def customer(request):
 
 
 def customer_by_ID(request, userId):
-    customer = Customer.objects.filter(idClient=userId).values()
+    customer = Customer.objects.filter(IdClient=userId).values()
     if not customer.exists():
         return JsonResponse({"error": "user not found"})
 
@@ -66,9 +66,10 @@ def update_db(request):
             for client in parsed_json['clients']:
                 idClient = uuid.uuid1()
                 if 'Compte' in client:
-                    new_client = Customer(idClient = idClient, lastName = client['Nom'], firstName = client['Prenom'], fidelityPoint = client['Credit'], payment = client['Paiement'], account = client['Compte'])
+                    print("=====================================")
+                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Paiement = client['Paiement'], Compte = client['Compte'])
                 else:
-                    new_client = Customer(idClient = idClient, lastName=client['Nom'], firstName=client['Prenom'],fidelityPoint=client['Credit'], payment=client['Paiement'])
+                    new_client = Customer(IdClient = idClient, Nom=client['Nom'], Prenom=client['Prenom'],Credit=client['Credit'], Paiement=client['Paiement'])
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
             data = {"Clients_json": SomeModel_json}
