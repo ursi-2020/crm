@@ -15,7 +15,7 @@ It includes:
 
 The CRM home page contains following elements :
 - A table of all clients registered in the data base
-- Link 'Importer clients' alowing go to page for adding clients
+- Link 'Importer clients' allowing go to page for adding clients
 
 **Service name** : `crm`
 
