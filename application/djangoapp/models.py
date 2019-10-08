@@ -23,3 +23,4 @@ class Customer(models.Model):
     Credit = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     Paiement = models.IntegerField(default=0)
     Compte = models.CharField(max_length=10, default="")
+    carteFid = models.IntegerField(default=-1)

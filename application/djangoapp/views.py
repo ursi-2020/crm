@@ -61,15 +61,20 @@ def update_db(request):
         if customer.is_valid():
             data = request.FILES['file'].read()
             parsed_json = (json.loads(data))
-            '''print(parsed_json)'''
             Customer.objects.all().delete()
             for client in parsed_json['clients']:
                 idClient = uuid.uuid1()
-                if 'Compte' in client:
-                    print("=====================================")
-                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Paiement = client['Paiement'], Compte = client['Compte'])
+                if ('Compte' in client and 'carteFid' in client):
+                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Paiement = client['Paiement'], Compte = client['Compte'], carteFid = client['carteFid'])
+                elif ('carteFid' in client and not 'Compte' in client):
+                    new_client = Customer(IdClient = idClient, Nom=client['Nom'], Prenom=client['Prenom'],Credit=client['Credit'], Paiement=client['Paiement'], carteFid = client['carteFid'])
+                elif ('Compte' in client and not 'carteFid' in client):
+                    new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
+                                          Credit=client['Credit'], Paiement=client['Paiement'], Compte=client['Compte'])
                 else:
-                    new_client = Customer(IdClient = idClient, Nom=client['Nom'], Prenom=client['Prenom'],Credit=client['Credit'], Paiement=client['Paiement'])
+                    new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
+                                          Credit=client['Credit'], Paiement=client['Paiement'])
+
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
             data = {"Clients_json": SomeModel_json}
