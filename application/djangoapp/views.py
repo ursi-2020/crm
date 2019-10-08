@@ -82,3 +82,16 @@ def update_db(request):
     else:
         client = CustomerForm()
         return render(request, 'djangoapp/update_db.html',{'form': client})
+
+@csrf_exempt
+def credit(request) :
+    if request.method == 'POST':
+        tickets = request.POST
+        for ticket in tickets.items() :
+            for each_ticket in json.loads(ticket[0])['Ticket']:
+                print(each_ticket['Montant'] * 0.5)
+                customer = Customer.objects.filter(carteFid= each_ticket['carteFid'])
+                customer.Credit = customer.Credit + each_ticket['Montant'] * 0.5
+                customer.update()
+        return HttpResponse('SUCESS')
+    return HttpResponse('SUCESS')
