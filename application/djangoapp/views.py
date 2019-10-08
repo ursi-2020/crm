@@ -32,7 +32,7 @@ def customer(request):
 
 
 def customer_by_ID(request, userId):
-    customer = Customer.objects.filter(IdClient=userId).values()
+    customer = Customer.objects.filter(carteFid=userId).values()
     if not customer.exists():
         return JsonResponse({"error": "user not found"})
 
