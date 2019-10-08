@@ -56,7 +56,8 @@ Get the details of all customers registered in the CRM db
     "Prenom": "Bloggs",
     "Credit": "42,00",
     "Paiement": 0,
-    "Compte": "BKN1CST53"
+    "Compte": "BKN1CST53",
+    "carteFid": 33
   },
   {
     "IdClient": "a14f4a08-e29e-11e9-a8cb-08002751d198",
@@ -64,7 +65,8 @@ Get the details of all customers registered in the CRM db
     "Prenom": "Bigoudi",
     "Credit": "69,00",
     "Paiement": 3,
-    "Compte": ""
+    "Compte": "",
+    "carteFid": 42
   }
 ]
 ```
@@ -95,7 +97,8 @@ Get the details of a customer registered in the CRM db with ID.
        "Prenom": "Bloggs",
        "Credit": "42.00",
        "Paiement": 0,
-       "Compte": "BKN1CST53"
+       "Compte": "BKN1CST53",
+       "carteFid": 33
      }
  ]
 ```
@@ -126,21 +129,81 @@ Register a new customer in CRM db
                     "Prenom": "Jean",
                     "Credit": 0.0,
                     "Paiement": 0,
-                    "Compte": "BKN1CST18"
+                    "Compte": "BKN1CST18",
+                    "carteFid": 33
                 },
                 {
                     "Nom": "Sarkozy-51",
                     "Prenom": "Marc",
                     "Credit": 0.0,
-                    "Paiement": 0
+                    "Paiement": 0,
+                    "carteFid": 42
                 },
                 {
                     "Nom": "Eddison-53",
                     "Prenom": "Anne",
                     "Credit": 154.62542724609375,
                     "Paiement": 3,
-                    "Compte": "BKN1CST53"
+                    "Compte": "BKN1CST53",
+                    "carteFid": 56
                 }
             ]
+}
+```
+
+## Credit customers
+
+Each client with a fidelity card is credeted of 0,5 * total payment
+
+**Service name** : `crm`
+
+**URL** : `/api/credit`
+
+**Method** : `POST`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
+**Content examples:**
+
+
+```json
+{"Tickets" : [
+                {
+                    "carteFid": 33,
+                    "Montant": 26
+                },
+                {
+                    "carteFid": 42,
+                    "Montant": 55
+                }
+            ]
+}
+```
+
+## Get the credit of customers
+
+Get the credit of a customer with its carteFid number
+
+**Service name** : `crm`
+
+**URL** : `/api/credit/<carteFid>`
+
+**Method** : `GET`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
+**Content examples:**
+
+
+```json
+{
+    "carteFid": 33,
+    "Montant": 13
 }
 ```
