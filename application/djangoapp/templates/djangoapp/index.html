@@ -18,6 +18,7 @@
         <th>Crédit</th>
         <th>Paiement</th>
         <th>Compte</th>
+        <th>carteFid</th>
     </tr>
     {% for o in customers %}
   <tr>
@@ -27,6 +28,7 @@
       <th>{{ o.Credit }}</th>
       <th>{{ o.Paiement }}</th>
       <th>{{ o.Compte }}</th>
+      <th>{{ o.carteFid }}</th>
   </tr>
     <tr> {% empty %}
       <th>Aucun client enregistré</th>
