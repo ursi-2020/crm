@@ -40,6 +40,16 @@ def customer_by_ID(request, userId):
         customer = list(customer)  # important: convert the QuerySet to a list object
         return JsonResponse(customer, safe=False)
 
+def getCredit(request, carteFid):
+    customer = Customer.objects.filter(carteFid=carteFid).values()
+    if not customer.exists():
+        return JsonResponse({"error": "Customer not found"})
+
+    else:
+        customer = list(customer)
+        result = {"carteFid": customer[0]["carteFid"], "Credit": customer[0]["Credit"]}
+        return JsonResponse(result, safe=False)
+
 def promo(request):
     res = api.send_request('gestion-promotion', 'api/v1/promo')
     return HttpResponse(res)

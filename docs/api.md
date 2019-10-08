@@ -204,6 +204,6 @@ Get the credit of a customer with its carteFid number
 ```json
 {
     "carteFid": 33,
-    "Montant": 13
+    "Credit": 13
 }
 ```
