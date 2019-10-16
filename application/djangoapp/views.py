@@ -62,9 +62,9 @@ def add_promo(request):
     return HttpResponse(res)
 
 def test(request):
-    j = '{"firstName":"Quentin", "lastName":"Reynaud"}'
-    api.post_request('crm', 'customer/', j)
-    return HttpResponse("created")
+    j = json.loads('{"Tickets" : [{"carteFid": 33, "Montant": 26},{"carteFid": 42,"Montant": 55}]}')
+    api.post_request('crm', '/api/credit/', j)
+    return HttpResponse("Credited")
 
 
 def update_db(request):
@@ -100,14 +100,12 @@ def credit(request) :
     if request.method == 'POST':
         tickets = request.POST
         for ticket in tickets.items() :
-            for each_ticket in json.loads(ticket[0])['Ticket']:
+            for each_ticket in json.loads(ticket[0])['Tickets']:
                 try :
                     customer = Customer.objects.get(carteFid= each_ticket['carteFid'])
-                    print(customer.Credit)
                     customer.Credit = customer.Credit + Decimal(each_ticket['Montant'] / 2)
                     customer.save()
                     customer_bis = Customer.objects.get(carteFid=each_ticket['carteFid'])
-                    print(customer_bis.Credit)
                     return JsonResponse({"SUCESS": "Fidelity point updated"})
                 except ObjectDoesNotExist:
                     return JsonResponse({"ERROR": "Client not found"})
