@@ -1,6 +1,8 @@
 from django.http import HttpResponse, QueryDict
 from django.http import JsonResponse
 from django.core import serializers
+from decimal import Decimal
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from apipkg import api_manager as api
@@ -99,9 +101,13 @@ def credit(request) :
         tickets = request.POST
         for ticket in tickets.items() :
             for each_ticket in json.loads(ticket[0])['Ticket']:
-                print(each_ticket['Montant'] * 0.5)
-                customer = Customer.objects.filter(carteFid= each_ticket['carteFid'])
-                customer.Credit = customer.Credit + each_ticket['Montant'] * 0.5
-                customer.update()
-        return HttpResponse('SUCESS')
-    return HttpResponse('SUCESS')
+                try :
+                    customer = Customer.objects.get(carteFid= each_ticket['carteFid'])
+                    print(customer.Credit)
+                    customer.Credit = customer.Credit + Decimal(each_ticket['Montant'] / 2)
+                    customer.save()
+                    customer_bis = Customer.objects.get(carteFid=each_ticket['carteFid'])
+                    print(customer_bis.Credit)
+                    return JsonResponse({"SUCESS": "Fidelity point updated"})
+                except ObjectDoesNotExist:
+                    return JsonResponse({"ERROR": "Client not found"})
