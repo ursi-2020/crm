@@ -105,7 +105,6 @@ def credit(request) :
                     customer = Customer.objects.get(carteFid= each_ticket['carteFid'])
                     customer.Credit = customer.Credit + Decimal(each_ticket['Montant'] / 2)
                     customer.save()
-                    customer_bis = Customer.objects.get(carteFid=each_ticket['carteFid'])
                     return JsonResponse({"SUCESS": "Fidelity point updated"})
                 except ObjectDoesNotExist:
                     return JsonResponse({"ERROR": "Client not found"})
