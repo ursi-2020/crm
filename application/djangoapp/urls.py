@@ -11,6 +11,7 @@ urlpatterns = [
     path('test/', views.test, name='test'),
     path('update_db',views.update_db, name='update_db'),
     path('credit', views.credit, name='credit'),
-    path('credit/<int:carteFid>', views.getCredit, name='get_credit')
+    path('credit/<int:carteFid>', views.getCredit, name='get_credit'),
+    path('schedule_credit', views.schedule_credit, name='schedule_credit')
 
 ]

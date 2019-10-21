@@ -2,6 +2,8 @@ from django.http import HttpResponse, QueryDict
 from django.http import JsonResponse
 from django.core import serializers
 from decimal import Decimal
+from datetime import datetime, timedelta
+import requests
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -96,15 +98,45 @@ def update_db(request):
         return render(request, 'djangoapp/update_db.html',{'form': client})
 
 @csrf_exempt
-def credit(request) :
-    if request.method == 'POST':
-        tickets = request.POST
-        for ticket in tickets.items() :
-            for each_ticket in json.loads(ticket[0])['Tickets']:
-                try :
-                    customer = Customer.objects.get(carteFid= each_ticket['carteFid'])
-                    customer.Credit = customer.Credit + Decimal(each_ticket['Montant'] / 2)
-                    customer.save()
-                    return JsonResponse({"SUCESS": "Fidelity point updated"})
-                except ObjectDoesNotExist:
-                    return JsonResponse({"ERROR": "Client not found"})
+def credit(request):
+    res = api.send_request('gestion-magasin', 'api/sales')
+    tickets = json.loads(res)
+    error = False
+    for t in tickets:
+        if t['client'] != '':
+
+            try:
+                customer = Customer.objects.get(carteFid=t['client'])
+                customer.Credit = customer.Credit + Decimal(t['prix'] / 2)
+                customer.save()
+
+            except ObjectDoesNotExist:
+                error = True
+    if error:
+        return JsonResponse({"Error": "Client does not exist"})
+    return JsonResponse({"SUCESS": "Fidelity point updated"})
+
+
+def schedule_credit(request):
+    clock_time = api.send_request('scheduler', 'clock/time')
+    time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
+    time = time + timedelta(seconds=20)
+    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
+    body = {
+        "target_url": 'api/credit',
+        "target_app": 'crm',
+        "time": time_str,
+        "recurrence": "jour",
+        "data": '{}',
+        "source_app": "crm",
+        "name": "CRM-credit-clients"
+    }
+    schedule_task(body)
+    return redirect('index')
+
+def schedule_task(body):
+    headers = {'Host': 'scheduler'}
+    r = requests.post(api.api_services_url + 'schedule/add', headers=headers, json=body)
+    print(r.status_code)
+    print(r.text)
+    return
