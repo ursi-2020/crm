@@ -14,7 +14,10 @@ from .models import *
 import json
 
 def index(request):
-    customers = Customer.objects.all()
+    customers = Customer.objects.all().values()
+    customers = list(customers)
+    for c in customers:
+        c['Credit'] = round((c['Credit'] / 100), 2)
     return render(request, 'djangoapp/index.html', locals())
 
 @csrf_exempt
