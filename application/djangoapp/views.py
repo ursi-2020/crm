@@ -104,10 +104,11 @@ def credit(request):
     error = False
     for t in tickets:
         if t['client'] != '':
-
+            print("COUCOUuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+            print(t['prix'])
             try:
                 customer = Customer.objects.get(carteFid=t['client'])
-                customer.Credit = customer.Credit + Decimal(t['prix'] / 2)
+                customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
 
             except ObjectDoesNotExist:
@@ -120,11 +121,11 @@ def credit(request):
 def schedule_credit(request):
     clock_time = api.send_request('scheduler', 'clock/time')
     time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
-    time = time + timedelta(seconds=20)
+    time = time + timedelta(seconds=180)
     time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
     body = {
-        "target_url": 'api/credit',
         "target_app": 'crm',
+        "target_url": 'api/credit',
         "time": time_str,
         "recurrence": "jour",
         "data": '{}',
@@ -137,6 +138,7 @@ def schedule_credit(request):
 def schedule_task(body):
     headers = {'Host': 'scheduler'}
     r = requests.post(api.api_services_url + 'schedule/add', headers=headers, json=body)
+    print("schedule error code: ")
     print(r.status_code)
     print(r.text)
     return
