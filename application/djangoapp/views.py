@@ -127,7 +127,7 @@ def schedule_credit(request):
         "target_app": 'crm',
         "target_url": 'api/credit',
         "time": time_str,
-        "recurrence": "jour",
+        "recurrence": "day",
         "data": '{}',
         "source_app": "crm",
         "name": "CRM-credit-clients"
