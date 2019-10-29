@@ -107,8 +107,6 @@ def credit(request):
     error = False
     for t in tickets:
         if t['client'] != '':
-            print("COUCOUuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
-            print(t['prix'])
             try:
                 customer = Customer.objects.get(carteFid=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
@@ -145,3 +143,10 @@ def schedule_task(body):
     print(r.status_code)
     print(r.text)
     return
+
+@csrf_exempt
+def create_customer(request) :
+    idClient = uuid.uuid1()
+
+    return JsonResponse({"carteFid": uuid.uuid1()})
+
