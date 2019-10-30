@@ -145,8 +145,12 @@ def schedule_task(body):
     return
 
 @csrf_exempt
-def create_customer(request) :
+def create_customer(request):
     idClient = uuid.uuid1()
+    return JsonResponse({"idClient": uuid.uuid1()})
 
-    return JsonResponse({"carteFid": uuid.uuid1()})
+@csrf_exempt
+def allow_credit(request):
+    # Get client id, check if client is allowed, get credit amount, schedule a task
+    return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
 
