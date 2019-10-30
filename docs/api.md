@@ -3,14 +3,6 @@
 
 This application manage all data from customers.
 
-It includes:
- - uuid
- - Last name
- - First name
- - Credit
- - Payment
- - account
-
 # Home Page
 
 The CRM home page contains following elements :
@@ -29,6 +21,23 @@ The CRM home page contains following elements :
 **Success Response code:** `200 OK`
 
 # JSON API
+
+## API list:
+
+[Show all customers](#show-all-customers)
+
+[Show one customer](#show-one-customer)
+
+[Add a customer by file](#add-a-customer-by-file)
+
+[Create new customer](#create-new-customer)
+
+[Credit customers](#credit-customers)
+
+[Get the credit of customers](#get-the-credit-of-customers)
+
+[Allow credit](#allow-credit)
+
 
 ## Show all customers
 
@@ -104,7 +113,7 @@ Get the details of a customer registered in the CRM db with ID.
 ```
 
 
-## Add a customer
+## Add a customer by file
 
 Register a new customer in CRM db
 
@@ -148,6 +157,41 @@ Register a new customer in CRM db
                     "carteFid": 56
                 }
             ]
+}
+```
+
+## Create new customer
+
+Register a new customer in CRM and get back its new client id
+
+**Service name** : `crm`
+
+**URL** : `/api/create_customer`
+
+**Method** : `POST`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
+**Content examples:**
+
+```json
+{
+    "Nom": "Eddison-53",
+    "Prenom": "Anne",
+    "Compte": "BKN1CST53",
+    "Age": 56,
+    "Sexe": "Femme"
+}
+```
+
+**Response:**
+
+```json
+{
+    "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198"
 }
 ```
 
@@ -207,3 +251,38 @@ Get the credit of a customer with its carteFid number
     "Credit": 13
 }
 ```
+
+## Allow credit
+
+Check if client is allowed to contact credit and schedule the credit.
+
+**Service name** : `crm`
+
+**URL** : `/api/allow_credit/
+
+**Method** : `POST`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
+**Content examples:**
+
+
+```json
+{
+    "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+    "Montant": 36000,
+    "NbPaiement": 4
+}
+```
+
+**Response:**
+```json
+{
+    "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+    "Allowed": true
+}
+```
+
