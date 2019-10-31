@@ -38,6 +38,9 @@ The CRM home page contains following elements :
 
 [Allow credit](#allow-credit)
 
+[Get tickets](#get-tickets)
+
+
 
 ## Show all customers
 
