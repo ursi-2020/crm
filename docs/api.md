@@ -286,3 +286,58 @@ Check if client is allowed to contact credit and schedule the credit.
 }
 ```
 
+## Get tickets
+
+Get the list of all tickets
+
+**Service name** : `crm`
+
+**URL** : `/api/get_tickets/
+
+**Method** : `GET`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
+**Content examples:**
+
+
+```json
+{"tickets":[
+              {
+                "id": 42,
+                "date": "2019-10-09T17:01:29.408701Z",
+                "prix": 424,
+                "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                "pointsFidelite": 0,
+                "modePaiement": "CASH",
+                "articles": [
+                  {
+                    "codeProduit": "X1-0",
+                    "quantity": 2
+                  },
+                  {
+                    "codeProduit": "X1-9",
+                    "quantity": 1
+                  }
+                ]
+              },
+              {
+                "id": 38,
+                "date": "2019-10-09T18:03:45.408701Z",
+                "prix": 7582,
+                "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                "pointsFidelite": 18,
+                "modePaiement": "CARD",
+                "articles": [
+                  {
+                    "codeProduit": "X1-4",
+                    "quantity": 2
+                  }
+                ]
+              }
+          ]
+}
+```

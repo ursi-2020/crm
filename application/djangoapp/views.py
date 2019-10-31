@@ -152,5 +152,55 @@ def create_customer(request):
 @csrf_exempt
 def allow_credit(request):
     # Get client id, check if client is allowed, get credit amount, schedule a task
-    return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
+    if request.method == 'POST':
+        return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
+        # convert json to dictionary
+"""
+        body_unicode = request.body.decode('utf-8')
+        arg = json.loads(body_unicode)
+        c = Customer.objects.get(IdClient=arg['idClient'])
+        if (c['NbRefus'] < 3):
+            allowed = True
+            c['Arembourser'] = arg['Montant']
+            c['Paiemnt'] = arg['NbPaiement']
+            c.save()
+            return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
+        else:
+            return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
+            """
 
+def get_tickets(request):
+    return JsonResponse({"tickets":[
+                          {
+                            "id": 42,
+                            "date": "2019-10-09T17:01:29.408701Z",
+                            "prix": 424,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 0,
+                            "modePaiement": "CASH",
+                            "articles": [
+                              {
+                                "codeProduit": "X1-0",
+                                "quantity": 2
+                              },
+                              {
+                                "codeProduit": "X1-9",
+                                "quantity": 1
+                              }
+                            ]
+                          },
+                          {
+                            "id": 38,
+                            "date": "2019-10-09T18:03:45.408701Z",
+                            "prix": 7582,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 18,
+                            "modePaiement": "CARD",
+                            "articles": [
+                              {
+                                "codeProduit": "X1-4",
+                                "quantity": 2
+                              }
+                            ]
+                          }
+                        ]})

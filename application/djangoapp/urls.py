@@ -14,6 +14,7 @@ urlpatterns = [
     path('credit/<int:carteFid>', views.getCredit, name='get_credit'),
     path('schedule_credit', views.schedule_credit, name='schedule_credit'),
     path('create_customer', views.create_customer, name='create_customer'),
-    path('allow_credit', views.allow_credit, name='allow_credit')
+    path('allow_credit', views.allow_credit, name='allow_credit'),
+    path('get_tickets', views.get_tickets, name='get_tickets')
 
 ]
