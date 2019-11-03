@@ -147,6 +147,11 @@ def schedule_task(body):
 @csrf_exempt
 def create_customer(request):
     idClient = uuid.uuid1()
+    for key in dict(request.POST.lists()) :
+        client = json.loads(key)
+    new_client = Customer(IdClient= idClient, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'], Age=client['age'], Email=client['mail'], carteFid=idClient, Phone=client['phone'])
+
+    new_client.save()
     return JsonResponse({"idClient": uuid.uuid1()})
 
 @csrf_exempt

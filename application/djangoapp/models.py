@@ -28,4 +28,5 @@ class Customer(models.Model):
     Age = models.IntegerField(default=-1)
     Sexe = models.CharField(max_length=5)
     Email = models.CharField(max_length=200)
-    carteFid = models.IntegerField(default=-1)
+    carteFid = models.TextField(blank=False)
+    Phone = models.CharField(max_length=200)
