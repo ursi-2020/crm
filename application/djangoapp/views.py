@@ -2,7 +2,7 @@ from django.http import HttpResponse, QueryDict
 from django.http import JsonResponse
 from django.core import serializers
 from decimal import Decimal
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import requests
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
@@ -82,15 +82,15 @@ def update_db(request):
             for client in parsed_json['clients']:
                 idClient = uuid.uuid1()
                 if ('Compte' in client and 'carteFid' in client):
-                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Paiement = client['Paiement'], Compte = client['Compte'], carteFid = client['carteFid'])
+                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Paiement = client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte = client['Compte'], carteFid = client['carteFid'])
                 elif ('carteFid' in client and not 'Compte' in client):
-                    new_client = Customer(IdClient = idClient, Nom=client['Nom'], Prenom=client['Prenom'],Credit=client['Credit'], Paiement=client['Paiement'], carteFid = client['carteFid'])
+                    new_client = Customer(IdClient = idClient, Nom=client['Nom'], Prenom=client['Prenom'],Credit=client['Credit'], Paiement=client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], carteFid = client['carteFid'])
                 elif ('Compte' in client and not 'carteFid' in client):
                     new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
-                                          Credit=client['Credit'], Paiement=client['Paiement'], Compte=client['Compte'])
+                                          Credit=client['Credit'], Paiement=client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte=client['Compte'])
                 else:
                     new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
-                                          Credit=client['Credit'], Paiement=client['Paiement'])
+                                          Credit=client['Credit'], Paiement=client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'])
 
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
@@ -156,11 +156,27 @@ def create_customer(request):
 
 @csrf_exempt
 def allow_credit(request):
+    return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
     # Get client id, check if client is allowed, get credit amount, schedule a task
+"""
     if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        arg = json.loads(body_unicode)
+        c = Customer.objects.get(IdClient=arg['idClient'])
+        if (arg['NbPaiement'] and arg['Montant']):
+        #if ('NbPaiement' in args and 'Montant' in args):
+            c.Paiement = arg['NbPaiement']
+            #c.Montant = arg['Montant']
+            c.save()
+            return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
+        else:
+            return JsonResponse({"idClient": arg['idClient'], "Allowed": False})"""
+
+#OLD
+"""    if request.method == 'POST':
         return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
         # convert json to dictionary
-"""
+
         body_unicode = request.body.decode('utf-8')
         arg = json.loads(body_unicode)
         c = Customer.objects.get(IdClient=arg['idClient'])
@@ -173,6 +189,47 @@ def allow_credit(request):
         else:
             return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
             """
+
+def paiement(request):
+    #Select all paiement according to the date
+    """today = date.today()
+    d1 = today.strftime("%d/%m/%Y") #jj/mm/aaaa
+    #Get all customer that have to pay this day
+    c = Customer.objects.get(Paiement=d1)
+
+    json_file = "./paiement_list.json"
+    json_content = {}
+    #mettre une liste !!!
+    for client in c:
+        json_content["IdClient"] = client.IdClient
+        json_content["Paiement"] = client.Paiement
+    with open(json_file, 'w') as fp:
+        json.dump(json_content, fp)
+    #https://www.youtube.com/watch?v=Ogym0QZLDgw
+    return JsonResponse(json_file)"""
+    return JsonResponse({"test": "jhkjh"})
+
+
+
+
+def schedule_paiement(request):
+    """clock_time = api.send_request('scheduler', 'clock/time')
+    time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
+    time = time + timedelta(seconds=180)
+    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
+    body = {
+        "target_app": 'crm', #PAIEMENT ??
+        "target_url": 'api/paiement ',
+        "time": time_str,
+        "recurrence": "day",
+        "data": '{}',
+        "source_app": "crm",
+        "name": "CRM-schedule-paiement"
+    }
+    schedule_task(body)"""
+    return redirect('index')
+
+
 
 def get_tickets(request):
     return JsonResponse({"tickets":[

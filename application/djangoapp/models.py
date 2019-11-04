@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime, timedelta, date
 
 class Article(models.Model):
     nom = models.CharField(max_length=200)
@@ -22,6 +22,8 @@ class Customer(models.Model):
     Prenom = models.CharField(max_length=200)
     Credit = models.IntegerField(default=0)
     Paiement = models.IntegerField(default=0)
+    Date_paiement = models.DateField(default=date.today)
+    Montant = models.IntegerField(default=0)
     NbRefus = models.IntegerField(default=0)
     Arembourser = models.IntegerField(default=0)
     Compte = models.CharField(max_length=10, default="")

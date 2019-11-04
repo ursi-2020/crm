@@ -3,7 +3,9 @@
         "Nom": "Eddison-18",
         "Prenom": "Jean",
         "Credit": 0.0,
-        "Paiement": 0,
+	"Paiement": 25,
+	"Date_paiement": "2019-01-18",
+        "Montant": 125,
         "Compte": "BKN1CST18",
         "carteFid": 33
     },
@@ -11,14 +13,18 @@
         "Nom": "Sarkozy-51",
         "Prenom": "Marc",
         "Credit": 0.0,
-        "Paiement": 0,
+	"Paiement": 25,
+	"Date_paiement": "2019-03-09",
+        "Montant": 125,
         "carteFid": 22
     },
     {
         "Nom": "Eddison-53",
         "Prenom": "Anne",
         "Credit": 154.62542724609375,
-        "Paiement": 3,
+	"Paiement": 25,
+	"Date_paiement": "2020-05-19",
+        "Montant": 125,
         "Compte": "BKN1CST53",
         "carteFid": 11
     }
