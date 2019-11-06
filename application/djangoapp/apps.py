@@ -19,7 +19,7 @@ class ApplicationConfig(AppConfig):
             time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
             time = time + timedelta(seconds=180)
             target_app = 'crm'
-            target_url = 'api/paiement '
+            target_url = 'api/paiement'
             data = '{}'
             source_app = "crm"
             name = "CRM-schedule-paiement"

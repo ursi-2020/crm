@@ -172,11 +172,16 @@ def allow_credit(request):
         else:
             return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
 
+@csrf_exempt
 def paiement(request):
     #Select all paiement according to the date
-    today = date.today()
+    #today = date.today()
+    today = api.send_request('scheduler', 'clock/time')
+    print(today)
+    time = datetime.strptime(today, '"%d/%m/%Y-%H:%M:%S"')
+    today = datetime.date(time)
     #Get all customer that have to pay this day
-    c = Customer.objects.filter(Date_paiement=today)
+    c = Customer.objects.filter(Date_paiement=time)
 
     body = {}
     for client in c:
@@ -184,6 +189,8 @@ def paiement(request):
         body["card"] = client.Compte
         body["amount"] = client.Montant
         paiement = api.post_request2('gestion-paiement', 'api/proceed-payement', body)
+        print("PAIEMENT:")
+        print(paiement)
         #if error set it in crm
     return JsonResponse({"State": "finished"})
 
