@@ -156,21 +156,20 @@ def create_customer(request):
 
 @csrf_exempt
 def allow_credit(request):
-    return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
     # Get client id, check if client is allowed, get credit amount, schedule a task
-"""
+
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         arg = json.loads(body_unicode)
         c = Customer.objects.get(IdClient=arg['idClient'])
-        if (arg['NbPaiement'] and arg['Montant']):
+        if (arg['Date'] and arg['Montant']):
         #if ('NbPaiement' in args and 'Montant' in args):
-            c.Paiement = arg['NbPaiement']
-            #c.Montant = arg['Montant']
+            c.Date_paiement = arg['Date']
+            c.Montant = arg['Montant']
             c.save()
             return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
         else:
-            return JsonResponse({"idClient": arg['idClient'], "Allowed": False})"""
+            return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
 
 #OLD
 """    if request.method == 'POST':
