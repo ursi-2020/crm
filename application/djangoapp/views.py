@@ -143,7 +143,7 @@ def schedule_task(body):
     print(r.status_code)
     print(r.text)
     return
-
+'''==========================================E-COMMERCE============================================'''
 @csrf_exempt
 def create_customer(request):
     idClient = uuid.uuid1()
@@ -153,6 +153,44 @@ def create_customer(request):
 
     new_client.save()
     return JsonResponse({"idClient": uuid.uuid1()})
+
+@csrf_exempt
+def credit_ecommerce(request):
+    res = api.send_request('e-commerce', 'getTickets')
+    tickets = json.loads(res)
+    error = False
+    for t in tickets:
+        if t['client'] != '':
+            try:
+                customer = Customer.objects.get(carteFid=t['client'])
+                customer.Credit = customer.Credit + int(t['prix']) / 2
+                customer.save()
+
+            except ObjectDoesNotExist:
+                error = True
+    if error:
+        return JsonResponse({"Error": "Client does not exist"})
+    return JsonResponse({"SUCESS": "Fidelity point updated"})
+
+
+def schedule_credit_ecommerce(request):
+    clock_time = api.send_request('scheduler', 'clock/time')
+    time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
+    time = time + timedelta(seconds=180)
+    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
+    body = {
+        "target_app": 'crm',
+        "target_url": 'api/credit_ecommerce',
+        "time": time_str,
+        "recurrence": "day",
+        "data": '{}',
+        "source_app": "crm",
+        "name": "CRM-credit-clients-ecommerce"
+    }
+    schedule_task(body)
+    return redirect('index')
+
+'''=======================================END E-COMMERCE==========================================='''
 
 @csrf_exempt
 def allow_credit(request):
