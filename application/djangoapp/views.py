@@ -156,6 +156,7 @@ def create_customer(request):
 
 @csrf_exempt
 def allow_credit(request):
+   # return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
     # Get client id, check if client is allowed, get credit amount, schedule a task
 
     if request.method == 'POST':
@@ -171,44 +172,20 @@ def allow_credit(request):
         else:
             return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
 
-#OLD
-"""    if request.method == 'POST':
-        return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
-        # convert json to dictionary
-
-        body_unicode = request.body.decode('utf-8')
-        arg = json.loads(body_unicode)
-        c = Customer.objects.get(IdClient=arg['idClient'])
-        if (c['NbRefus'] < 3):
-            allowed = True
-            c['Arembourser'] = arg['Montant']
-            c['Paiemnt'] = arg['NbPaiement']
-            c.save()
-            return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
-        else:
-            return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
-            """
-
 def paiement(request):
     #Select all paiement according to the date
-    """today = date.today()
-    d1 = today.strftime("%d/%m/%Y") #jj/mm/aaaa
+    today = date.today()
     #Get all customer that have to pay this day
-    c = Customer.objects.get(Paiement=d1)
+    c = Customer.objects.filter(Date_paiement=today)
 
-    json_file = "./paiement_list.json"
-    json_content = {}
-    #mettre une liste !!!
+    body = {}
     for client in c:
-        json_content["IdClient"] = client.IdClient
-        json_content["Paiement"] = client.Paiement
-    with open(json_file, 'w') as fp:
-        json.dump(json_content, fp)
-    #https://www.youtube.com/watch?v=Ogym0QZLDgw
-    return JsonResponse(json_file)"""
-    return JsonResponse({"test": "jhkjh"})
-
-
+        body["client_id"] = client.IdClient
+        body["card"] = client.Compte
+        body["amount"] = client.Montant
+        paiement = api.post_request2('gestion-paiement', 'api/proceed-payement', body)
+        #if error set it in crm
+    return JsonResponse({"State": "finished"})
 
 
 def schedule_paiement(request):

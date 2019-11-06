@@ -277,7 +277,7 @@ Check if client is allowed to contact credit and schedule the credit.
 {
     "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
     "Montant": 36000,
-    "NbPaiement": 4
+    "Date": "2019-12-06"
 }
 ```
 
