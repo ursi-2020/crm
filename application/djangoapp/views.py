@@ -210,9 +210,7 @@ def paiement(request):
     #Select all paiement according to the date
     #today = date.today()
     today = api.send_request('scheduler', 'clock/time')
-    print(today)
     time = datetime.strptime(today, '"%d/%m/%Y-%H:%M:%S"')
-    today = datetime.date(time)
     #Get all customer that have to pay this day
     c = Customer.objects.filter(Date_paiement=time)
 
@@ -222,13 +220,14 @@ def paiement(request):
         body["card"] = client.Compte
         body["amount"] = client.Montant
         paiement = api.post_request2('gestion-paiement', 'api/proceed-payement', body)
-        print("PAIEMENT:")
-        print(paiement)
+        success = json.loads(paiement[1].content)["status"]
         #if error set it in crm
-        if paiement[0] == "200":
-            client.NbRefus = client.NbRefus + 1
-        else:
+        if success == "OK":
             client.Montant = 0
+        else:
+            client.NbRefus = client.NbRefus + 1
+            client.Date_paiement = client.Date_paiement + timedelta(days=1)
+
         client.save()
     return JsonResponse({"State": "finished"})
 
