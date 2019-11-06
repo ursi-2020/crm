@@ -39,7 +39,7 @@ def customer(request):
 
 
 def customer_by_ID(request, userId):
-    customer = Customer.objects.filter(carteFid=userId).values()
+    customer = Customer.objects.filter(IdClient=userId).values()
     if not customer.exists():
         return JsonResponse({"error": "user not found"})
 
@@ -47,14 +47,14 @@ def customer_by_ID(request, userId):
         customer = list(customer)  # important: convert the QuerySet to a list object
         return JsonResponse(customer, safe=False)
 
-def getCredit(request, carteFid):
-    customer = Customer.objects.filter(carteFid=carteFid).values()
+def getCredit(request, idClient):
+    customer = Customer.objects.filter(IdClient=idClient).values()
     if not customer.exists():
         return JsonResponse({"error": "Customer not found"})
 
     else:
         customer = list(customer)
-        result = {"carteFid": customer[0]["carteFid"], "Credit": customer[0]["Credit"]}
+        result = {"idClient": customer[0]["IdClient"], "Credit": customer[0]["Credit"]}
         return JsonResponse(result, safe=False)
 
 def promo(request):
@@ -81,16 +81,11 @@ def update_db(request):
             Customer.objects.all().delete()
             for client in parsed_json['clients']:
                 idClient = uuid.uuid1()
-                if ('Compte' in client and 'carteFid' in client):
-                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Paiement = client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte = client['Compte'], carteFid = client['carteFid'])
-                elif ('carteFid' in client and not 'Compte' in client):
-                    new_client = Customer(IdClient = idClient, Nom=client['Nom'], Prenom=client['Prenom'],Credit=client['Credit'], Paiement=client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], carteFid = client['carteFid'])
-                elif ('Compte' in client and not 'carteFid' in client):
-                    new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
-                                          Credit=client['Credit'], Paiement=client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte=client['Compte'])
+                if 'Compte' in client:
+                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte = client['Compte'])
                 else:
                     new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
-                                          Credit=client['Credit'], Paiement=client['Paiement'], Date_paiement = client['Date_paiement'], Montant = client['Montant'])
+                                          Credit=client['Credit'], Date_paiement = client['Date_paiement'], Montant = client['Montant'])
 
                 new_client.save()
             SomeModel_json = serializers.serialize("json", Customer.objects.all())
@@ -108,7 +103,7 @@ def credit(request):
     for t in tickets:
         if t['client'] != '':
             try:
-                customer = Customer.objects.get(carteFid=t['client'])
+                customer = Customer.objects.get(IdClient=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
 
@@ -149,7 +144,7 @@ def create_customer(request):
     idClient = uuid.uuid1()
     for key in dict(request.POST.lists()) :
         client = json.loads(key)
-    new_client = Customer(IdClient= idClient, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'], Age=client['age'], Email=client['mail'], carteFid=idClient, Phone=client['phone'])
+    new_client = Customer(IdClient= idClient, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'], Age=client['age'], Email=client['mail'], Phone=client['phone'])
 
     new_client.save()
     return JsonResponse({"idClient": uuid.uuid1()})
@@ -162,7 +157,7 @@ def credit_ecommerce(request):
     for t in tickets:
         if t['client'] != '':
             try:
-                customer = Customer.objects.get(carteFid=t['client'])
+                customer = Customer.objects.get(IdClient=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
 
@@ -230,26 +225,12 @@ def paiement(request):
         print("PAIEMENT:")
         print(paiement)
         #if error set it in crm
+        if paiement[0] == "200":
+            client.NbRefus = client.NbRefus + 1
+        else:
+            client.Montant = 0
+        client.save()
     return JsonResponse({"State": "finished"})
-
-
-def schedule_paiement(request):
-    """clock_time = api.send_request('scheduler', 'clock/time')
-    time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
-    time = time + timedelta(seconds=180)
-    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
-    body = {
-        "target_app": 'crm', #PAIEMENT ??
-        "target_url": 'api/paiement ',
-        "time": time_str,
-        "recurrence": "day",
-        "data": '{}',
-        "source_app": "crm",
-        "name": "CRM-schedule-paiement"
-    }
-    schedule_task(body)"""
-    return redirect('index')
-
 
 
 def get_tickets(request):

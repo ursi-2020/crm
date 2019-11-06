@@ -22,11 +22,11 @@
         <th>Numéro de tel</th>
         <th>@mail</th>
         <th>Crédit</th>
-        <th>Paiement</th>
         <th>Date_paiement</th>
         <th>Montant</th>
         <th>Compte</th>
-        <th>carteFid</th>
+        <th>Nb Refus</th>
+
     </tr>
     {% for o in customers %}
   <tr>
@@ -38,11 +38,10 @@
       <th>{{ o.Phone }}</th>
       <th>{{ o.Email }}</th>
       <th>{{ o.Credit }}</th>
-      <th>{{ o.Paiement }}</th>
       <th>{{ o.Date_paiement }}</th>
       <th>{{ o.Montant }}</th>
       <th>{{ o.Compte }}</th>
-      <th>{{ o.carteFid }}</th>
+      <th>{{ o.NbRefus }}</th>
   </tr>
     <tr> {% empty %}
       <th>Aucun client enregistré</th>
