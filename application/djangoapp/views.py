@@ -161,6 +161,13 @@ def credit_ecommerce(request):
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
 
+                #Save the ticket
+                new_ticket = Ticket(Date_ticket=t['date'], prix=t['prix'], client=t['client'], Points_fidelite=t['pointsFidelite'], Mode_paiement=t['modePaiement'])
+                new_ticket.save()
+                if t['articles'] != '':
+                    new_article = PurchasedArticle(CodeProduit=t['articles']['codeProduit'], Quantity=t['articles']['quantity'], ticket=new_ticket)
+                    new_article.save()
+
             except ObjectDoesNotExist:
                 error = True
     if error:
