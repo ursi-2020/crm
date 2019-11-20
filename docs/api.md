@@ -343,6 +343,9 @@ Get the list of all tickets
                 "articles": [
                   {
                     "codeProduit": "X1-4",
+                    "prixAvant" : 36,
+                    "prixApres": 18,
+                    "promo": 50,
                     "quantity": 2
                   }
                 ]
