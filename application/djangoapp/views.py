@@ -208,17 +208,21 @@ def allow_credit(request):
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         arg = json.loads(body_unicode)
-        c = Customer.objects.get(IdClient=arg['idClient'])
-        if (arg['Date'] and arg['Montant']):
-            if c.NbRefus < 1:
-                c.Date_paiement = arg['Date']
-                c.Montant = arg['Montant']
-                c.save()
-                return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
+        try:
+            c = Customer.objects.get(IdClient=arg['idClient'])
+            if (arg['Date'] and arg['Montant']):
+                if c.NbRefus < 1:
+                    c.Date_paiement = arg['Date']
+                    c.Montant = arg['Montant']
+                    c.save()
+                    return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
+                else:
+                    return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
             else:
-                return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
-        else:
-            return JsonResponse({"Error": 'Missing fields', "Allowed": False})
+                return JsonResponse({"Error": 'Missing fields', "Allowed": False})
+        except Customer.DoesNotExist:
+            return JsonResponse({"Error": 'Client does not exist', "Allowed": False})
+
 
 @csrf_exempt
 def paiement(request):
