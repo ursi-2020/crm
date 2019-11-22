@@ -4,6 +4,7 @@
 # Sections
 
 * [API](api.md)
+* [Scheduled tasks](scheduled_tasks.md)
 * [Communication](communication.md)
 * [Flux](flux.md)
 * [Use Case](use-case.md)
