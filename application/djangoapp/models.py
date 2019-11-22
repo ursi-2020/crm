@@ -29,3 +29,15 @@ class Customer(models.Model):
     Sexe = models.CharField(max_length=5)
     Email = models.CharField(max_length=200)
     Phone = models.CharField(max_length=200)
+
+class PurchasedArticle(models.Model):
+    CodeProduit = models.CharField(max_length=200)
+    Quantity = models.IntegerField(default=0)
+    ticket = models.ForeignKey('Ticket', related_name='purchased_articles', on_delete=models.CASCADE)
+
+class Ticket(models.Model):
+    Date_ticket = models.DateField()
+    prix = models.IntegerField(default=0)
+    client = models.TextField(blank=False)
+    Points_fidelite = models.IntegerField(default=0)
+    Mode_paiement = models.CharField(max_length=10)

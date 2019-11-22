@@ -319,10 +319,16 @@ Get the list of all tickets
                 "articles": [
                   {
                     "codeProduit": "X1-0",
+                    "prixAvant" : 800,
+                    "prixApres": 400,
+                    "promo": 50,
                     "quantity": 2
                   },
                   {
                     "codeProduit": "X1-9",
+                    "prixAvant" : 48,
+                    "prixApres": 24,
+                    "promo": 50,
                     "quantity": 1
                   }
                 ]
@@ -337,6 +343,9 @@ Get the list of all tickets
                 "articles": [
                   {
                     "codeProduit": "X1-4",
+                    "prixAvant" : 36,
+                    "prixApres": 18,
+                    "promo": 50,
                     "quantity": 2
                   }
                 ]
