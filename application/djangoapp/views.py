@@ -119,7 +119,7 @@ def credit(request):
         return JsonResponse({"Error": "Client does not exist"})
     return JsonResponse({"SUCESS": "Fidelity point updated"})
 
-
+# obsolete use function in apps.py
 def schedule_credit(request):
     clock_time = api.send_request('scheduler', 'clock/time')
     time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
@@ -136,7 +136,7 @@ def schedule_credit(request):
     }
     schedule_task(body)
     return redirect('index')
-
+# obsolete use function in apps.py
 def schedule_task(body):
     headers = {'Host': 'scheduler'}
     r = requests.post(api.api_services_url + 'schedule/add', headers=headers, json=body)
