@@ -67,6 +67,12 @@ def add_promo(request):
     return HttpResponse(res)
 
 def test(request):
+    body = {
+        "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+        "Montant": 36000,
+        "Date": "2019-12-06"
+    }
+    api.post_request2('gestion-paiement', 'api/proceed-payement', body)
     j = json.loads('{"Tickets" : [{"carteFid": 33, "Montant": 26},{"carteFid": 42,"Montant": 55}]}')
     api.post_request('crm', '/api/credit/', j)
     return HttpResponse("Credited")
@@ -197,13 +203,15 @@ def allow_credit(request):
         arg = json.loads(body_unicode)
         c = Customer.objects.get(IdClient=arg['idClient'])
         if (arg['Date'] and arg['Montant']):
-        #if ('NbPaiement' in args and 'Montant' in args):
-            c.Date_paiement = arg['Date']
-            c.Montant = arg['Montant']
-            c.save()
-            return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
+            if c.NbRefus < 1:
+                c.Date_paiement = arg['Date']
+                c.Montant = arg['Montant']
+                c.save()
+                return JsonResponse({"idClient": arg['idClient'], "Allowed": True})
+            else:
+                return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
         else:
-            return JsonResponse({"idClient": arg['idClient'], "Allowed": False})
+            return JsonResponse({"Error": 'Missing fields', "Allowed": False})
 
 @csrf_exempt
 def paiement(request):
