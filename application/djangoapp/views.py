@@ -160,9 +160,9 @@ def update_save_tickets(tickets):
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
-                        new_article = PurchasedArticle(CodeProduit=article['codeProduit'],
-                                                       PrixAvant=article['prixAvant'], PrixApres=article['prixApres'],
-                                                       Promo=article['promo'], Quantity=article['quantity'],
+                        new_article = PurchasedArticle(codeProduit=article['codeProduit'],
+                                                       prixAvant=article['prixAvant'], prixApres=article['prixApres'],
+                                                       promo=article['promo'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
 
@@ -187,9 +187,9 @@ def test_tickets(request):
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
-                        new_article = PurchasedArticle(CodeProduit=article['codeProduit'],
-                                                       PrixAvant=article['prixAvant'], PrixApres=article['prixApres'],
-                                                       Promo=article['promo'], Quantity=article['quantity'],
+                        new_article = PurchasedArticle(codeProduit=article['codeProduit'],
+                                                       prixAvant=article['prixAvant'], prixApres=article['prixApres'],
+                                                       promo=article['promo'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
 
@@ -276,12 +276,31 @@ def paiement(request):
 
 
 def get_tickets(request):
-    '''
+    tickets = list(Ticket.objects.prefetch_related('purchased_articles').all().values())
+    ticket_array = []
+    for each_ticket in tickets :
+        ticket = {}
+        ticket['id'] = each_ticket['id']
+        ticket['date'] = each_ticket['DateTicket']
+        ticket['prix'] = each_ticket['Prix']
+        ticket['client'] = each_ticket['Client']
+        ticket['pointsFidelite'] = each_ticket['PointsFidelite']
+        ticket['modePaiement'] = each_ticket['ModePaiement']
+        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket['id']).values())
+        ticket_array.append(ticket)
+
+    response_data = {'tickets' : ticket_array}
+    print(response_data)
+
+    return JsonResponse(response_data, content_type="application/json")
+
+
+
+'''
     tickets = Ticket.objects.prefetch_related('purchased_articles').all().values()
     tickets_list = list(tickets)  # important: convert the QuerySet to a list object
     return JsonResponse({"tickets": tickets_list}, safe=False)
-
-    '''
+    
     return JsonResponse({"tickets":[
                           {
                             "id": 42,
@@ -325,3 +344,4 @@ def get_tickets(request):
                             ]
                           }
                         ]})
+'''

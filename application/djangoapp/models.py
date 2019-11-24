@@ -31,11 +31,11 @@ class Customer(models.Model):
     Phone = models.CharField(max_length=200)
 
 class PurchasedArticle(models.Model):
-    CodeProduit = models.CharField(max_length=200)
-    PrixAvant = models.IntegerField(default=0)
-    PrixApres = models.IntegerField(default=0)
-    Promo = models.IntegerField(default=0)
-    Quantity = models.IntegerField(default=0)
+    codeProduit = models.CharField(max_length=200)
+    prixAvant = models.IntegerField(default=0)
+    prixApres = models.IntegerField(default=0)
+    promo = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=0)
     ticket = models.ForeignKey('Ticket', related_name='purchased_articles', on_delete=models.CASCADE)
 
 class Ticket(models.Model):
