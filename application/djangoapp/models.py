@@ -32,12 +32,15 @@ class Customer(models.Model):
 
 class PurchasedArticle(models.Model):
     CodeProduit = models.CharField(max_length=200)
+    PrixAvant = models.IntegerField(default=0)
+    PrixAprès = models.IntegerField(default=0)
+    Promo = models.IntegerField(default=0)
     Quantity = models.IntegerField(default=0)
     ticket = models.ForeignKey('Ticket', related_name='purchased_articles', on_delete=models.CASCADE)
 
 class Ticket(models.Model):
-    Date_ticket = models.DateField()
-    prix = models.IntegerField(default=0)
-    client = models.TextField(blank=False)
-    Points_fidelite = models.IntegerField(default=0)
-    Mode_paiement = models.CharField(max_length=10)
+    DateTicket = models.DateField()
+    Prix = models.IntegerField(default=0)
+    Client = models.TextField(blank=False)
+    PointsFidelite = models.IntegerField(default=0)
+    ModePaiement = models.CharField(max_length=10)

@@ -104,20 +104,8 @@ def update_db(request):
 @csrf_exempt
 def credit(request):
     res = api.send_request('gestion-magasin', 'api/sales')
-    tickets = json.loads(res)
-    error = False
-    for t in tickets:
-        if t['client'] != '':
-            try:
-                customer = Customer.objects.get(IdClient=t['client'])
-                customer.Credit = customer.Credit + int(t['prix']) / 2
-                customer.save()
-
-            except ObjectDoesNotExist:
-                error = True
-    if error:
-        return JsonResponse({"Error": "Client does not exist"})
-    return JsonResponse({"SUCESS": "Fidelity point updated"})
+    tickets = (json.loads(res))
+    return update_save_tickets(tickets)
 
 # obsolete use function in apps.py
 def schedule_credit(request):
@@ -155,10 +143,7 @@ def create_customer(request):
     new_client.save()
     return JsonResponse({"idClient": uuid.uuid1()})
 
-@csrf_exempt
-def credit_ecommerce(request):
-    res = api.send_request('e-commerce', 'getTickets')
-    tickets = json.loads(res)
+def update_save_tickets(tickets):
     error = False
     for t in tickets:
         if t['client'] != '':
@@ -167,12 +152,17 @@ def credit_ecommerce(request):
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
 
-                #Save the ticket
-                new_ticket = Ticket(Date_ticket=t['date'], prix=t['prix'], client=t['client'], Points_fidelite=t['pointsFidelite'], Mode_paiement=t['modePaiement'])
+                # Save the ticket
+                new_ticket = Ticket(DateTicket=t['date'], Prix=t['prix'], Client=t['client'],
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
                 new_ticket.save()
                 if t['articles'] != '':
-                    new_article = PurchasedArticle(CodeProduit=t['articles']['codeProduit'], Quantity=t['articles']['quantity'], ticket=new_ticket)
-                    new_article.save()
+                    for article in t['articles']:
+                        new_article = PurchasedArticle(CodeProduit=article['CodeProduit'],
+                                                       PrixAvant=article['PrixAvant'], PrixApres=article['PrixApres'],
+                                                       Promo=article['Promo'], Quantity=article['Quantity'],
+                                                       ticket=new_ticket)
+                        new_article.save()
 
             except ObjectDoesNotExist:
                 error = True
@@ -180,6 +170,12 @@ def credit_ecommerce(request):
         return JsonResponse({"Error": "Client does not exist"})
     return JsonResponse({"SUCESS": "Fidelity point updated"})
 
+
+@csrf_exempt
+def credit_ecommerce(request):
+    res = api.send_request('e-commerce', 'getTickets')
+    tickets = json.loads(res)
+    return update_save_tickets(tickets)
 
 def schedule_credit_ecommerce(request):
     clock_time = api.send_request('scheduler', 'clock/time')

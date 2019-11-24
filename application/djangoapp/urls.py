@@ -11,6 +11,7 @@ urlpatterns = [
     path('test/', views.test, name='test'),
     path('update_db',views.update_db, name='update_db'),
     path('credit', views.credit, name='credit'),
+    path('credit_ecommerce', views.credit_ecommerce, name='credit_ecommerce'),
     path('credit/<int:idClient>', views.getCredit, name='get_credit'),
     path('schedule_credit', views.schedule_credit, name='schedule_credit'),
     path('create_customer', views.create_customer, name='create_customer'),
