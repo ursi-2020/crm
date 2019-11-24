@@ -21,7 +21,7 @@ class Customer(models.Model):
     Nom = models.CharField(max_length=200)
     Prenom = models.CharField(max_length=200)
     Credit = models.IntegerField(default=0)
-    Date_paiement = models.DateField()
+    Date_paiement = models.DateField(null=True)
     Montant = models.IntegerField(default=0)
     NbRefus = models.IntegerField(default=0)
     Compte = models.CharField(max_length=10, default="")
@@ -33,13 +33,13 @@ class Customer(models.Model):
 class PurchasedArticle(models.Model):
     CodeProduit = models.CharField(max_length=200)
     PrixAvant = models.IntegerField(default=0)
-    PrixAprès = models.IntegerField(default=0)
+    PrixApres = models.IntegerField(default=0)
     Promo = models.IntegerField(default=0)
     Quantity = models.IntegerField(default=0)
     ticket = models.ForeignKey('Ticket', related_name='purchased_articles', on_delete=models.CASCADE)
 
 class Ticket(models.Model):
-    DateTicket = models.DateField()
+    DateTicket = models.DateField(blank=True, null=True)
     Prix = models.IntegerField(default=0)
     Client = models.TextField(blank=False)
     PointsFidelite = models.IntegerField(default=0)

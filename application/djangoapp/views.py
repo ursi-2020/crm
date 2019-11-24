@@ -136,6 +136,7 @@ def schedule_task(body):
 @csrf_exempt
 def create_customer(request):
     idClient = uuid.uuid1()
+    print(dict(request.POST.lists()))
     for key in dict(request.POST.lists()) :
         client = json.loads(key)
     new_client = Customer(IdClient= idClient, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'], Age=client['age'], Email=client['mail'], Phone=client['phone'])
@@ -145,9 +146,10 @@ def create_customer(request):
 
 def update_save_tickets(tickets):
     error = False
-    for t in tickets:
+    for t in tickets['tickets']:
         if t['client'] != '':
             try:
+                #Update customer fidelity points
                 customer = Customer.objects.get(IdClient=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
@@ -158,9 +160,9 @@ def update_save_tickets(tickets):
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
-                        new_article = PurchasedArticle(CodeProduit=article['CodeProduit'],
-                                                       PrixAvant=article['PrixAvant'], PrixApres=article['PrixApres'],
-                                                       Promo=article['Promo'], Quantity=article['Quantity'],
+                        new_article = PurchasedArticle(CodeProduit=article['codeProduit'],
+                                                       PrixAvant=article['prixAvant'], PrixApres=article['prixApres'],
+                                                       Promo=article['promo'], Quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
 
@@ -170,6 +172,32 @@ def update_save_tickets(tickets):
         return JsonResponse({"Error": "Client does not exist"})
     return JsonResponse({"SUCESS": "Fidelity point updated"})
 
+@csrf_exempt
+def test_tickets(request):
+    for key in dict(request.POST.lists()) :
+        tickets = json.loads(key)
+    error = False
+    for t in tickets['tickets']:
+        if t['client'] != '':
+            try:
+
+                # Save the ticket
+                new_ticket = Ticket(DateTicket=t['date'], Prix=t['prix'], Client="a14e39ce-e29e-11e9-a8cb-08002751d198",
+                                    PointsFidelite= 0, ModePaiement=t['modePaiement'])
+                new_ticket.save()
+                if t['articles'] != '':
+                    for article in t['articles']:
+                        new_article = PurchasedArticle(CodeProduit=article['codeProduit'],
+                                                       PrixAvant=article['prixAvant'], PrixApres=article['prixApres'],
+                                                       Promo=article['promo'], Quantity=article['quantity'],
+                                                       ticket=new_ticket)
+                        new_article.save()
+
+            except ObjectDoesNotExist:
+                error = True
+    if error:
+        return JsonResponse({"Error": "Client does not exist"})
+    return JsonResponse({"SUCESS": "Fidelity point updated"})
 
 @csrf_exempt
 def credit_ecommerce(request):
@@ -248,6 +276,12 @@ def paiement(request):
 
 
 def get_tickets(request):
+    '''
+    tickets = Ticket.objects.prefetch_related('purchased_articles').all().values()
+    tickets_list = list(tickets)  # important: convert the QuerySet to a list object
+    return JsonResponse({"tickets": tickets_list}, safe=False)
+
+    '''
     return JsonResponse({"tickets":[
                           {
                             "id": 42,
@@ -259,10 +293,16 @@ def get_tickets(request):
                             "articles": [
                               {
                                 "codeProduit": "X1-0",
+                                "prixAvant": 800,
+                                "prixApres": 400,
+                                "promo": 50,
                                 "quantity": 2
                               },
                               {
                                 "codeProduit": "X1-9",
+                                "prixAvant": 48,
+                                "prixApres": 24,
+                                "promo": 50,
                                 "quantity": 1
                               }
                             ]
@@ -277,6 +317,9 @@ def get_tickets(request):
                             "articles": [
                               {
                                 "codeProduit": "X1-4",
+                                "prixAvant": 36,
+                                "prixApres": 18,
+                                "promo": 50,
                                 "quantity": 2
                               }
                             ]
