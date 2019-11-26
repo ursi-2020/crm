@@ -291,7 +291,6 @@ def get_tickets(request):
         ticket_array.append(ticket)
 
     response_data = {'tickets' : ticket_array}
-    print(response_data)
 
     return JsonResponse(response_data, content_type="application/json")
 
