@@ -12,6 +12,7 @@ import uuid
 from .forms import *
 from .models import *
 import json
+from django.utils.dateparse import parse_datetime
 
 def index(request):
     customers = Customer.objects.all().values()
@@ -155,7 +156,7 @@ def update_save_tickets(tickets):
                 customer.save()
 
                 # Save the ticket
-                new_ticket = Ticket(DateTicket=t['date'], Prix=t['prix'], Client=t['client'],
+                new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
                                     PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
                 new_ticket.save()
                 if t['articles'] != '':
@@ -182,7 +183,7 @@ def test_tickets(request):
             try:
 
                 # Save the ticket
-                new_ticket = Ticket(DateTicket=t['date'], Prix=t['prix'], Client="a14e39ce-e29e-11e9-a8cb-08002751d198",
+                new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client="a14e39ce-e29e-11e9-a8cb-08002751d198",
                                     PointsFidelite= 0, ModePaiement=t['modePaiement'])
                 new_ticket.save()
                 if t['articles'] != '':
