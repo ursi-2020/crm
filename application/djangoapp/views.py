@@ -202,7 +202,7 @@ def test_tickets(request):
 
 @csrf_exempt
 def credit_ecommerce(request):
-    res = api.send_request('e-commerce', 'getTickets')
+    res = api.send_request('e-commerce', 'ecommerce/getTickets')
     tickets = json.loads(res)
     return update_save_tickets(tickets)
 
