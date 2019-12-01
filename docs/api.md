@@ -73,7 +73,7 @@ Get the details of all customers registered in the CRM db
            "NbRefus": 0,
            "Compte": "BKN1CST53",
            "Age": 42,
-           "Sexe": "Homme",
+           "Sexe": "h",
            "Email":	"Jacquie@mimi.com",
            "Phone": "0102030405"
       },
@@ -88,7 +88,7 @@ Get the details of all customers registered in the CRM db
            "NbRefus": 1,
            "Compte": "BKN1CST83",
            "Age": 42,
-           "Sexe": "Femme",
+           "Sexe": "f",
            "Email":	"Michelle@mimi.com",
            "Phone": "0102089405"
          }
@@ -126,7 +126,7 @@ Get the details of a customer registered in the CRM db with ID.
        "NbRefus": 0,
        "Compte": "BKN1CST53",
        "Age": 42,
-       "Sexe": "Homme",
+       "Sexe": "h",
        "Email":	"Jacquie@mimi.com",
        "Phone": "0102030405"
      }
