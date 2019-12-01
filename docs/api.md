@@ -62,24 +62,36 @@ Get the details of all customers registered in the CRM db
 
 ```json
 [
-  {
-    "IdClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
-    "Nom": "Jacquie",
-    "Prenom": "Bloggs",
-    "Credit": "42,00",
-    "Paiement": 0,
-    "Compte": "BKN1CST53",
-    "carteFid": 33
-  },
-  {
-    "IdClient": "a14f4a08-e29e-11e9-a8cb-08002751d198",
-    "Nom": "Michelle",
-    "Prenom": "Bigoudi",
-    "Credit": "69,00",
-    "Paiement": 3,
-    "Compte": "",
-    "carteFid": 42
-  }
+      {
+           "id": 1,
+           "IdClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+           "Nom": "Jacquie",
+           "Prenom": "Bloggs",
+           "Credit": "420",
+           "Date_paiement":	"2019-01-11",
+           "Montant": 1330,
+           "NbRefus": 0,
+           "Compte": "BKN1CST53",
+           "Age": 42,
+           "Sexe": "Homme",
+           "Email":	"Jacquie@mimi.com",
+           "Phone": "0102030405"
+      },
+      {
+           "id": 2,
+           "IdClient": "2c5b24e0-0d48-11ea-b85e-08002751d198",
+           "Nom": "Michelle",
+           "Prenom": "Bloggs",
+           "Credit": "780",
+           "Date_paiement":	"2019-01-18",
+           "Montant": 4569,
+           "NbRefus": 1,
+           "Compte": "BKN1CST83",
+           "Age": 42,
+           "Sexe": "Femme",
+           "Email":	"Michelle@mimi.com",
+           "Phone": "0102089405"
+         }
 ]
 ```
 
@@ -104,13 +116,19 @@ Get the details of a customer registered in the CRM db with ID.
 ```json
 [
      {
-       "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+       "id": 3,
+       "IdClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
        "Nom": "Jacquie",
        "Prenom": "Bloggs",
-       "Credit": "42.00",
-       "Paiement": 0,
+       "Credit": "420",
+       "Date_paiement":	"2019-01-11",
+       "Montant": 1330,
+       "NbRefus": 0,
        "Compte": "BKN1CST53",
-       "carteFid": 33
+       "Age": 42,
+       "Sexe": "Homme",
+       "Email":	"Jacquie@mimi.com",
+       "Phone": "0102030405"
      }
  ]
 ```
@@ -136,30 +154,33 @@ Register a new customer in CRM db
 
 ```json
 {"clients" : [
-                {
-                    "Nom": "Eddison-18",
-                    "Prenom": "Jean",
-                    "Credit": 0.0,
-                    "Paiement": 0,
-                    "Compte": "BKN1CST18",
-                    "carteFid": 33
-                },
-                {
-                    "Nom": "Sarkozy-51",
-                    "Prenom": "Marc",
-                    "Credit": 0.0,
-                    "Paiement": 0,
-                    "carteFid": 42
-                },
-                {
-                    "Nom": "Eddison-53",
-                    "Prenom": "Anne",
-                    "Credit": 154.62542724609375,
-                    "Paiement": 3,
-                    "Compte": "BKN1CST53",
-                    "carteFid": 56
-                }
-            ]
+        {
+            "Nom": "Eddison-18",
+            "Prenom": "Jean",
+            "Credit": 0.0,
+        "Paiement": 25,
+        "Date_paiement": "2019-01-18",
+            "Montant": 125,
+            "Compte": "BKN1CST18"
+        },
+        {
+            "Nom": "Sarkozy-51",
+            "Prenom": "Marc",
+            "Credit": 0.0,
+        "Paiement": 25,
+        "Date_paiement": "2019-01-08",
+            "Montant": 125,
+            "Compte": "BKN1CST53"
+        },
+        {
+            "Nom": "Eddison-53",
+            "Prenom": "Anne",
+            "Credit": 154.62542724609375,
+        "Paiement": 25,
+        "Date_paiement": "2020-05-19",
+            "Montant": 125
+        }
+    ]
 }
 ```
 
@@ -182,11 +203,12 @@ Register a new customer in CRM and get back its new client id
 
 ```json
 {
-    "Nom": "Eddison-53",
-    "Prenom": "Anne",
-    "Compte": "BKN1CST53",
-    "Age": 56,
-    "Sexe": "Femme"
+    "name" : "Jon",
+    "last_name" : "Doe",
+    "sexe" : "f",
+    "age" : 23,
+    "mail" : "jon.doe@mail.com",
+    "phone" : "+33638614907"
 }
 ```
 
