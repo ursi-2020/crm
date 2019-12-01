@@ -175,16 +175,17 @@ def update_save_tickets(tickets):
 
 @csrf_exempt
 def test_tickets(request):
+    PurchasedArticle.objects.all().delete()
+    Ticket.objects.all().delete()
     for key in dict(request.POST.lists()) :
         tickets = json.loads(key)
     error = False
     for t in tickets['tickets']:
         if t['client'] != '':
             try:
-
                 # Save the ticket
-                new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client="a14e39ce-e29e-11e9-a8cb-08002751d198",
-                                    PointsFidelite= 0, ModePaiement=t['modePaiement'])
+                new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
@@ -277,7 +278,8 @@ def paiement(request):
 
 
 def get_tickets(request):
-    tickets = list(Ticket.objects.prefetch_related('purchased_articles').all().values())
+    tickets = list(Ticket.objects.all().values())
+    print(tickets)
     ticket_array = []
     for each_ticket in tickets :
         ticket = {}
