@@ -214,7 +214,7 @@ def generate_tickets(request):
     date_tickets = "2018-12-31T17:01:29.408701Z"
     tickets = {"tickets":[
                           {
-                            "id": 42,
+                            "id": 44,
                             "date": date_tickets,
                             "prix": 424,
                             "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
@@ -258,6 +258,141 @@ def generate_tickets(request):
                                 }
                             ]
                           },
+                        {
+                            "id": 43,
+                            "date": date_tickets,
+                            "prix": 424,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 0,
+                            "modePaiement": "CASH",
+                            "articles": [
+                                {
+                                    "codeProduit": "X1-1",
+                                    "prix": 800,
+                                    "prixApres": 400,
+                                    "promo": 50,
+                                    "quantity": 2
+                                },
+                                {
+                                    "codeProduit": "X1-2",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-3",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-4",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-5",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "id": 43,
+                            "date": date_tickets,
+                            "prix": 424,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 0,
+                            "modePaiement": "CASH",
+                            "articles": [
+                                {
+                                    "codeProduit": "X1-1",
+                                    "prix": 800,
+                                    "prixApres": 400,
+                                    "promo": 50,
+                                    "quantity": 2
+                                },
+                                {
+                                    "codeProduit": "X1-2",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-3",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-4",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-5",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "id": 42,
+                            "date": date_tickets,
+                            "prix": 424,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 0,
+                            "modePaiement": "CASH",
+                            "articles": [
+                                {
+                                    "codeProduit": "X1-1",
+                                    "prix": 800,
+                                    "prixApres": 400,
+                                    "promo": 50,
+                                    "quantity": 2
+                                },
+                                {
+                                    "codeProduit": "X1-2",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-3",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-4",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-5",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                }
+                            ]
+                        },
                           {
                             "id": 38,
                             "date": date_tickets,
@@ -412,7 +547,7 @@ def get_tickets(request):
     return JsonResponse({"tickets":[
                           {
                             "id": 42,
-                            "date": "2019-10-09T17:01:29.408701Z",
+                            "date": "2019-10-09",
                             "prix": 424,
                             "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
                             "pointsFidelite": 0,
@@ -436,7 +571,7 @@ def get_tickets(request):
                           },
                           {
                             "id": 38,
-                            "date": "2019-10-09T18:03:45.408701Z",
+                            "date": "2019-10-09",
                             "prix": 7582,
                             "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
                             "pointsFidelite": 18,
