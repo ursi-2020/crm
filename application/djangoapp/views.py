@@ -162,7 +162,7 @@ def update_save_tickets(tickets):
                 if t['articles'] != '':
                     for article in t['articles']:
                         new_article = PurchasedArticle(codeProduit=article['codeProduit'],
-                                                       prixAvant=article['prixAvant'], prixApres=article['prixApres'],
+                                                       prixAvant=article['prix'], prixApres=article['prixApres'],
                                                        promo=article['promo'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
@@ -190,7 +190,7 @@ def test_tickets(request):
                 if t['articles'] != '':
                     for article in t['articles']:
                         new_article = PurchasedArticle(codeProduit=article['codeProduit'],
-                                                       prixAvant=article['prixAvant'], prixApres=article['prixApres'],
+                                                       prixAvant=article['prix'], prixApres=article['prixApres'],
                                                        promo=article['promo'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
