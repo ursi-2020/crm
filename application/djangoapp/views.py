@@ -155,7 +155,6 @@ def create_customer_with_id_test(request):
     return create_customer_with_id(request, 'a14e39ce-e29e-11e9-a8cb-08002751d198')
 
 def update_save_tickets(tickets):
-    print(tickets)
     error = False
     for t in tickets['tickets']:
         if t['client'] != '':
