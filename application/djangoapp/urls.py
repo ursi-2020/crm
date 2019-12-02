@@ -19,5 +19,7 @@ urlpatterns = [
     path('get_tickets', views.get_tickets, name='get_tickets'),
     path('paiement', views.paiement, name='paiement'),
     path('test_tickets', views.test_tickets, name='test_tickets'),
+    path('create_customer_with_id_test', views.create_customer_with_id_test, name='create_customer_with_id_test'),
+    path('generate_tickets', views.generate_tickets, name='generate_tickets'),
 
 ]

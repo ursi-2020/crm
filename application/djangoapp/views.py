@@ -137,15 +137,25 @@ def schedule_task(body):
 @csrf_exempt
 def create_customer(request):
     idClient = uuid.uuid1()
+    return create_customer_with_id(request, idClient)
+
+@csrf_exempt
+def create_customer_with_id(request, id):
     print(dict(request.POST.lists()))
-    for key in dict(request.POST.lists()) :
+    for key in dict(request.POST.lists()):
         client = json.loads(key)
-    new_client = Customer(IdClient= idClient, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'], Age=client['age'], Email=client['mail'], Phone=client['phone'])
+    new_client = Customer(IdClient=id, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'],
+                          Age=client['age'], Email=client['mail'], Phone=client['phone'])
 
     new_client.save()
-    return JsonResponse({"idClient": uuid.uuid1()})
+    return JsonResponse({"idClient": id})
+
+@csrf_exempt
+def create_customer_with_id_test(request):
+    return create_customer_with_id(request, 'a14e39ce-e29e-11e9-a8cb-08002751d198')
 
 def update_save_tickets(tickets):
+    print(tickets)
     error = False
     for t in tickets['tickets']:
         if t['client'] != '':
@@ -175,8 +185,6 @@ def update_save_tickets(tickets):
 
 @csrf_exempt
 def test_tickets(request):
-    PurchasedArticle.objects.all().delete()
-    Ticket.objects.all().delete()
     for key in dict(request.POST.lists()) :
         tickets = json.loads(key)
     error = False
@@ -200,6 +208,104 @@ def test_tickets(request):
     if error:
         return JsonResponse({"Error": "Client does not exist"})
     return JsonResponse({"SUCESS": "Fidelity point updated"})
+
+@csrf_exempt
+def generate_tickets(request):
+
+    tickets = {"tickets":[
+                          {
+                            "id": 42,
+                            "date": "2019-10-09T17:01:29.408701Z",
+                            "prix": 424,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 0,
+                            "modePaiement": "CASH",
+                            "articles": [
+                              {
+                                "codeProduit": "X1-1",
+                                "prix": 800,
+                                "prixApres": 400,
+                                "promo": 50,
+                                "quantity": 2
+                              },
+                              {
+                                "codeProduit": "X1-2",
+                                "prix": 48,
+                                "prixApres": 24,
+                                "promo": 50,
+                                "quantity": 1
+                              },
+                                {
+                                    "codeProduit": "X1-3",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-4",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                },
+                                {
+                                    "codeProduit": "X1-5",
+                                    "prix": 48,
+                                    "prixApres": 24,
+                                    "promo": 50,
+                                    "quantity": 1
+                                }
+                            ]
+                          },
+                          {
+                            "id": 38,
+                            "date": "2019-10-09T18:03:45.408701Z",
+                            "prix": 7582,
+                            "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
+                            "pointsFidelite": 18,
+                            "modePaiement": "CARD",
+                            "articles": [
+                              {
+                                "codeProduit": "X1-6",
+                                "prix": 36,
+                                "prixApres": 18,
+                                "promo": 50,
+                                "quantity": 2
+                              },
+                                {
+                                    "codeProduit": "X1-7",
+                                    "prix": 36,
+                                    "prixApres": 18,
+                                    "promo": 50,
+                                    "quantity": 2
+                                },
+                                {
+                                    "codeProduit": "X1-8",
+                                    "prix": 36,
+                                    "prixApres": 36,
+                                    "promo": 0,
+                                    "quantity": 2
+                                },
+                                {
+                                    "codeProduit": "X1-9",
+                                    "prix": 36,
+                                    "prixApres": 36,
+                                    "promo": 0,
+                                    "quantity": 2
+                                },
+                                {
+                                    "codeProduit": "X1-10",
+                                    "prix": 36,
+                                    "prixApres": 36,
+                                    "promo": 0,
+                                    "quantity": 2
+                                }
+                            ]
+                          }
+                        ]}
+    tickets_json = json.dumps(tickets)
+    return update_save_tickets(json.loads(tickets_json))
 
 @csrf_exempt
 def credit_ecommerce(request):
