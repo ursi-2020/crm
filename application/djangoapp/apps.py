@@ -43,5 +43,5 @@ class ApplicationConfig(AppConfig):
             time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
             time = time + timedelta(seconds=180)
             schedule_allowed_payment(time)
-            #schedule_credit(time)
-            #schedule_credit_ecommerce(time)
+            schedule_credit(time)
+            schedule_credit_ecommerce(time)

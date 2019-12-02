@@ -211,10 +211,11 @@ def test_tickets(request):
 @csrf_exempt
 def generate_tickets(request):
 
+    date_tickets = "2018-12-31T17:01:29.408701Z"
     tickets = {"tickets":[
                           {
                             "id": 42,
-                            "date": "2019-10-09T17:01:29.408701Z",
+                            "date": date_tickets,
                             "prix": 424,
                             "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
                             "pointsFidelite": 0,
@@ -259,7 +260,7 @@ def generate_tickets(request):
                           },
                           {
                             "id": 38,
-                            "date": "2019-10-09T18:03:45.408701Z",
+                            "date": date_tickets,
                             "prix": 7582,
                             "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
                             "pointsFidelite": 18,
