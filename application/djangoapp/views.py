@@ -48,6 +48,24 @@ def customer_by_ID(request, userId):
         customer = list(customer)  # important: convert the QuerySet to a list object
         return JsonResponse(customer, safe=False)
 
+'''
+    Get client information with his email
+    Send email with post request {email: test@tst.com}
+'''
+@csrf_exempt
+def customer_by_email(request):
+    body_unicode = request.body.decode('utf-8')
+    arg = json.loads(body_unicode)
+    try:
+        c = Customer.objects.get(Email=arg['email'])
+        c = list(c)
+        print(c)
+        return JsonResponse(c, safe=False)
+
+    except Customer.DoesNotExist:
+        return JsonResponse({"Error": 'Client does not exist'})
+
+
 def getCredit(request, idClient):
     customer = Customer.objects.filter(IdClient=idClient).values()
     if not customer.exists():
@@ -69,14 +87,10 @@ def add_promo(request):
 
 def test(request):
     body = {
-        "idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198",
-        "Montant": 36000,
-        "Date": "2019-12-06"
+        "email": "eddison@ursi.fr"
     }
-    api.post_request2('gestion-paiement', 'api/proceed-payement', body)
-    j = json.loads('{"Tickets" : [{"carteFid": 33, "Montant": 26},{"carteFid": 42,"Montant": 55}]}')
-    api.post_request('crm', '/api/credit/', j)
-    return HttpResponse("Credited")
+    api.post_request2('crm', 'api/data/email', json.dumps(body))
+    return HttpResponse("sended")
 
 
 def update_db(request):
@@ -89,7 +103,7 @@ def update_db(request):
             for client in parsed_json['clients']:
                 idClient = uuid.uuid1()
                 if 'Compte' in client:
-                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte = client['Compte'])
+                    new_client = Customer(IdClient = idClient, Nom = client['Nom'], Prenom = client['Prenom'], Credit = client['Credit'], Date_paiement = client['Date_paiement'], Montant = client['Montant'], Compte = client['Compte'], Email = client['Email'])
                 else:
                     new_client = Customer(IdClient=idClient, Nom=client['Nom'], Prenom=client['Prenom'],
                                           Credit=client['Credit'], Date_paiement = client['Date_paiement'], Montant = client['Montant'])
@@ -536,7 +550,6 @@ def get_tickets(request):
     response_data = {'tickets' : ticket_array}
 
     return JsonResponse(response_data, content_type="application/json")
-
 
 
 '''

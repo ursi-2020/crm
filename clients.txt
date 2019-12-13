@@ -3,27 +3,30 @@
         "Nom": "Eddison-18",
         "Prenom": "Jean",
         "Credit": 0.0,
-	"Paiement": 25,
-	"Date_paiement": "2019-01-18",
+	    "Paiement": 25,
+	    "Date_paiement": "2019-01-18",
         "Montant": 125,
-        "Compte": "BKN1CST18"
+        "Compte": "BKN1CST18",
+        "Email": "eddison@ursi.fr"
     },
     {
         "Nom": "Sarkozy-51",
         "Prenom": "Marc",
         "Credit": 0.0,
-	"Paiement": 25,
-	"Date_paiement": "2019-01-08",
+	    "Paiement": 25,
+	    "Date_paiement": "2019-01-08",
         "Montant": 125,
-        "Compte": "BKN1CST53"
+        "Compte": "BKN1CST53",
+        "Email": "Sarkozy@ursi.fr"
     },
     {
         "Nom": "Eddison-53",
         "Prenom": "Anne",
         "Credit": 154.62542724609375,
-	"Paiement": 25,
-	"Date_paiement": "2020-05-19",
-        "Montant": 125
+	    "Paiement": 25,
+	    "Date_paiement": "2020-05-19",
+        "Montant": 125,
+        "Email": "eddison@ursi.fr"
     }
 ]
 }
