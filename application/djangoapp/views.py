@@ -144,8 +144,8 @@ def create_customer_with_id(request, id):
     print(dict(request.POST.lists()))
     for key in dict(request.POST.lists()):
         client = json.loads(key)
-    new_client = Customer(IdClient=id, Nom=client['last_name'], Prenom=client['name'], Sexe=client['sexe'],
-                          Age=client['age'], Email=client['mail'], Phone=client['phone'])
+    new_client = Customer(IdClient=id, Nom=client['Nom'], Prenom=client['Prenom'], Email=client['email'],
+                          Credit=client['Credit'], Date_paiement=client['Paiement'], Compte=client['Compte'])
 
     new_client.save()
     return JsonResponse({"idClient": id})

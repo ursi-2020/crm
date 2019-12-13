@@ -26,7 +26,7 @@ class Customer(models.Model):
     NbRefus = models.IntegerField(default=0)
     Compte = models.CharField(max_length=10, default="")
     Age = models.IntegerField(default=-1)
-    Sexe = models.CharField(max_length=5)
+    Sexe = models.CharField(max_length=5, default="")
     Email = models.CharField(max_length=200)
     Phone = models.CharField(max_length=200)
 
