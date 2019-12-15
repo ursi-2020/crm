@@ -57,10 +57,12 @@ def customer_by_email(request):
     body_unicode = request.body.decode('utf-8')
     arg = json.loads(body_unicode)
     try:
-        c = Customer.objects.get(Email=arg['email'])
+        c = Customer.objects.filter(Email=arg['email']).values()
         c = list(c)
-        print(c)
-        return JsonResponse(c, safe=False)
+        if len(c) > 0:
+            return JsonResponse(c[0], safe=False)
+        else:
+            return JsonResponse({"Error": 'Client does not exist'})
 
     except Customer.DoesNotExist:
         return JsonResponse({"Error": 'Client does not exist'})
