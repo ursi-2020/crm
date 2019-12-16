@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<header>
+    <title>CRM</title>
+</header>
 <body>
 
 <h1>CRM app</h1>
@@ -10,6 +13,25 @@
 <p>{{customer}}</p>
 <h3>Schedule credit</h3>
 <a href="{% url 'schedule_credit' %}">Schedule</a>
+<h3>Generate tickets</h3>
+<button onclick="generateClient()">Generate test client</button>
+<a href="{% url 'generate_tickets' %}">Generate tickets</a>
+<script>
+    function generateClient(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'create_customer_with_id_test' %}", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            Nom: "Jack",
+            Prenom: "Baltus",
+            email: "jack.baltus@ursi.fr",
+            Credit: 200,
+            Paiement: "2019-01-09",
+            Compte: "BKN1CST42"
+        }));
+    }
+
+</script>
 <h3>Importer un fichier dans la base de donnée</h3>
 <a href="{% url 'update_db' %}">Importer clients</a>
 <table style="width:100%">

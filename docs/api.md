@@ -26,7 +26,9 @@ The CRM home page contains following elements :
 
 [Show all customers](#show-all-customers)
 
-[Show one customer](#show-one-customer)
+[Show one customer by id](#show-one-customer)
+
+[Show one customer by email](#show-one-customer-by-email)
 
 [Add a customer by file](#add-a-customer-by-file)
 
@@ -133,6 +135,29 @@ Get the details of a customer registered in the CRM db with ID.
  ]
 ```
 
+# Show one customer by email
+
+Get the details of a customer registered in the CRM db with its email.
+
+**Service name** : `crm`
+
+**URL** : `api/data/<slug:IdClient>`
+
+**Method** : `POST`
+
+**Auth required** : NO
+
+
+**Success Response code:** `200 OK`
+
+**Content examples:**
+
+
+```json
+{
+   "email": "eddison@ursi.fr"
+}
+```
 
 ## Add a customer by file
 
