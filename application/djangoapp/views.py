@@ -160,7 +160,7 @@ def create_customer_with_id(request, id):
     body_unicode = request.body.decode('utf-8')
     client = json.loads(body_unicode)
     new_client = Customer(IdClient=id, Nom=client['Nom'], Prenom=client['Prenom'], Email=client['email'],
-                          Credit=client['Credit'], Date_paiement=client['Paiement'], Compte=client['Compte'])
+                          Credit=client['Credit'], Montant=client['Paiement'], Compte=client['Compte'])
 
     new_client.save()
     return JsonResponse({"idClient": id})
