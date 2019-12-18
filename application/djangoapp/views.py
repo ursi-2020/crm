@@ -157,9 +157,8 @@ def create_customer(request):
 
 @csrf_exempt
 def create_customer_with_id(request, id):
-    print(dict(request.POST.lists()))
-    for key in dict(request.POST.lists()):
-        client = json.loads(key)
+    body_unicode = request.body.decode('utf-8')
+    client = json.loads(body_unicode)
     new_client = Customer(IdClient=id, Nom=client['Nom'], Prenom=client['Prenom'], Email=client['email'],
                           Credit=client['Credit'], Date_paiement=client['Paiement'], Compte=client['Compte'])
 
@@ -227,7 +226,7 @@ def test_tickets(request):
 @csrf_exempt
 def generate_tickets(request):
 
-    date_tickets = "2018-12-31T17:01:29.408701Z"
+    date_tickets = "2019-01-02T17:01:29.408701Z"
     tickets = {"tickets":[
                           {
                             "id": 44,
