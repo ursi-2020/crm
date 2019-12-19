@@ -177,7 +177,6 @@ def credit_ecommerce(request):
 
 def update_save_tickets(tickets):
     error = False
-    print('XXXXXXXXXXXXXXXXXXXXXX ' + json.dumps(tickets))
     for t in tickets['tickets']:
         if t['client'] != '':
             try:
@@ -187,7 +186,7 @@ def update_save_tickets(tickets):
                 customer.save()
 
                 # Save the ticket
-                new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
+                new_ticket = Ticket(DateTicket=api.send_request('scheduler', 'clock/time'), Prix=t['prix'], Client=t['client'],
                                     PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
                 new_ticket.save()
                 if t['articles'] != '':
@@ -202,7 +201,7 @@ def update_save_tickets(tickets):
                 error = True
         else :
             # Save the ticket
-            new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
+            new_ticket = Ticket(DateTicket=api.send_request('scheduler', 'clock/time'), Prix=t['prix'], Client=t['client'],
                                 PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
             new_ticket.save()
             if t['articles'] != '':
