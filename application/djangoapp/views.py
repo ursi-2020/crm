@@ -122,7 +122,7 @@ def update_db(request):
 def credit(request):
     res = api.send_request('gestion-magasin', 'api/sales')
     tickets = (json.loads(res))
-    return update_save_tickets(tickets)
+    return update_save_tickets(tickets, 'magasin')
 
 # obsolete use function in apps.py
 def schedule_credit(request):
@@ -173,7 +173,7 @@ def create_customer_with_id_test(request):
 def credit_ecommerce(request):
     res = api.send_request('e-commerce', 'ecommerce/getTickets')
     tickets = json.loads(res)
-    return update_save_tickets(tickets)
+    return update_save_tickets(tickets, 'e-commerce')
 
 def update_save_tickets(tickets):
     error = False
@@ -186,7 +186,7 @@ def update_save_tickets(tickets):
                 customer.save()
 
                 # Save the ticket
-                new_ticket = Ticket(DateTicket=api.send_request('scheduler', 'clock/time'), Prix=t['prix'], Client=t['client'],
+                new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
                                     PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
                 new_ticket.save()
                 if t['articles'] != '':
@@ -201,7 +201,7 @@ def update_save_tickets(tickets):
                 error = True
         else :
             # Save the ticket
-            new_ticket = Ticket(DateTicket=api.send_request('scheduler', 'clock/time'), Prix=t['prix'], Client=t['client'],
+            new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
                                 PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
             new_ticket.save()
             if t['articles'] != '':
