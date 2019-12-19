@@ -175,13 +175,16 @@ def credit_ecommerce(request):
     tickets = json.loads(res)
     return update_save_tickets(tickets, 'e-commerce')
 
-def update_save_tickets(tickets):
+def update_save_tickets(tickets, src):
     error = False
     for t in tickets['tickets']:
         if t['client'] != '':
             try:
                 # Update customer fidelity points
-                customer = Customer.objects.get(IdClient=t['client'])
+                if src == 'e-commerce':
+                    customer = Customer.objects.get(Email=t['client'])
+                else:
+                    customer = Customer.objects.get(IdClient=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
 
