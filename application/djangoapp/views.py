@@ -169,12 +169,19 @@ def create_customer_with_id(request, id):
 def create_customer_with_id_test(request):
     return create_customer_with_id(request, 'a14e39ce-e29e-11e9-a8cb-08002751d198')
 
+@csrf_exempt
+def credit_ecommerce(request):
+    res = api.send_request('e-commerce', 'ecommerce/getTickets')
+    tickets = json.loads(res)
+    return update_save_tickets(tickets)
+
 def update_save_tickets(tickets):
     error = False
+    print('XXXXXXXXXXXXXXXXXXXXXX ' + json.dumps(tickets))
     for t in tickets['tickets']:
         if t['client'] != '':
             try:
-                #Update customer fidelity points
+                # Update customer fidelity points
                 customer = Customer.objects.get(IdClient=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
                 customer.save()
@@ -190,9 +197,21 @@ def update_save_tickets(tickets):
                                                        promo=article['promo'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
-
+                print('TICKET REGISTERED !')
             except ObjectDoesNotExist:
                 error = True
+        else :
+            # Save the ticket
+            new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
+                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
+            new_ticket.save()
+            if t['articles'] != '':
+                for article in t['articles']:
+                    new_article = PurchasedArticle(codeProduit=article['codeProduit'],
+                                                   prixAvant=article['prix'], prixApres=article['prixApres'],
+                                                   promo=article['promo'], quantity=article['quantity'],
+                                                   ticket=new_ticket)
+                    new_article.save()
     if error:
         return JsonResponse({"Error": "Client does not exist"})
     return JsonResponse({"SUCESS": "Fidelity point updated"})
@@ -457,11 +476,6 @@ def generate_tickets(request):
     tickets_json = json.dumps(tickets)
     return update_save_tickets(json.loads(tickets_json))
 
-@csrf_exempt
-def credit_ecommerce(request):
-    res = api.send_request('e-commerce', 'ecommerce/getTickets')
-    tickets = json.loads(res)
-    return update_save_tickets(tickets)
 
 def schedule_credit_ecommerce(request):
     clock_time = api.send_request('scheduler', 'clock/time')
