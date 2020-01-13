@@ -20,7 +20,9 @@ def index(request):
     for c in customers:
         c['Credit'] = round((c['Credit'] / 100), 2)
     return render(request, 'djangoapp/index.html', locals())
-
+"""
+Get all info about customers
+"""
 @csrf_exempt
 def customer(request):
     if request.method == 'GET':
@@ -38,7 +40,9 @@ def customer(request):
     else:
         return HttpResponse("Bad request")
 
-
+"""
+Get one customer with its clientId
+"""
 def customer_by_ID(request, userId):
     customer = Customer.objects.filter(IdClient=userId).values()
     if not customer.exists():
@@ -118,37 +122,19 @@ def update_db(request):
         client = CustomerForm()
         return render(request, 'djangoapp/update_db.html',{'form': client})
 
+"""
+This function is called by the scheduler
+to gets all tickets from gestion-magasin
+then add credit to customers
+and save tickets in the DB
+"""
 @csrf_exempt
 def credit(request):
     res = api.send_request('gestion-magasin', 'api/sales')
     tickets = (json.loads(res))
     return update_save_tickets(tickets, 'magasin')
 
-# obsolete use function in apps.py
-def schedule_credit(request):
-    clock_time = api.send_request('scheduler', 'clock/time')
-    time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
-    time = time + timedelta(seconds=180)
-    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
-    body = {
-        "target_app": 'crm',
-        "target_url": 'api/credit',
-        "time": time_str,
-        "recurrence": "day",
-        "data": '{}',
-        "source_app": "crm",
-        "name": "CRM-credit-clients"
-    }
-    schedule_task(body)
-    return redirect('index')
-# obsolete use function in apps.py
-def schedule_task(body):
-    headers = {'Host': 'scheduler'}
-    r = requests.post(api.api_services_url + 'schedule/add', headers=headers, json=body)
-    print("schedule error code: ")
-    print(r.status_code)
-    print(r.text)
-    return
+
 '''==========================================E-COMMERCE============================================'''
 @csrf_exempt
 def create_customer(request):
@@ -169,12 +155,23 @@ def create_customer_with_id(request, id):
 def create_customer_with_id_test(request):
     return create_customer_with_id(request, 'a14e39ce-e29e-11e9-a8cb-08002751d198')
 
+"""
+This function is called by the scheduler
+to gets all tickets from e-commerce
+then add credit to customers
+and save tickets in the DB
+"""
 @csrf_exempt
 def credit_ecommerce(request):
     res = api.send_request('e-commerce', 'ecommerce/getTickets')
     tickets = json.loads(res)
     return update_save_tickets(tickets, 'e-commerce')
 
+"""
+Add credit to customers
+and save tickets in the DB
+Add the source of the ticket -> TODO
+"""
 def update_save_tickets(tickets, src):
     error = False
     for t in tickets['tickets']:
@@ -478,26 +475,13 @@ def generate_tickets(request):
     tickets_json = json.dumps(tickets)
     return update_save_tickets(json.loads(tickets_json))
 
-
-def schedule_credit_ecommerce(request):
-    clock_time = api.send_request('scheduler', 'clock/time')
-    time = datetime.strptime(clock_time, '"%d/%m/%Y-%H:%M:%S"')
-    time = time + timedelta(seconds=180)
-    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
-    body = {
-        "target_app": 'crm',
-        "target_url": 'api/credit_ecommerce',
-        "time": time_str,
-        "recurrence": "day",
-        "data": '{}',
-        "source_app": "crm",
-        "name": "CRM-credit-clients-ecommerce"
-    }
-    schedule_task(body)
-    return redirect('index')
-
 '''=======================================END E-COMMERCE==========================================='''
 
+"""
+This function is called by gestion-paiement
+It save a request of differed payment 
+Each request is allowed if nbRefus is less than 1
+"""
 @csrf_exempt
 def allow_credit(request):
    # return JsonResponse({"idClient": "a14e39ce-e29e-11e9-a8cb-08002751d198", "Allowed": True})
@@ -521,7 +505,10 @@ def allow_credit(request):
         except Customer.DoesNotExist:
             return JsonResponse({"Error": 'Client does not exist', "Allowed": False})
 
-
+"""
+This function is called bu the scheduler to process all differed payment each day
+If payment refused the payment is differed next day
+"""
 @csrf_exempt
 def paiement(request):
     #Select all paiement according to the date
