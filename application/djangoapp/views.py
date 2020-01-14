@@ -196,7 +196,6 @@ def update_save_tickets(tickets, src):
                                                        promo=article['promo'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
-                print('TICKET REGISTERED !')
             except ObjectDoesNotExist:
                 error = True
         else :
@@ -538,7 +537,6 @@ def paiement(request):
 
 def get_tickets(request):
     tickets = list(Ticket.objects.all().values())
-    print(tickets)
     ticket_array = []
     for each_ticket in tickets :
         ticket = {}
