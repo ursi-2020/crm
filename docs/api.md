@@ -77,7 +77,8 @@ Get the details of all customers registered in the CRM db
            "Age": 42,
            "Sexe": "h",
            "Email":	"Jacquie@mimi.com",
-           "Phone": "0102030405"
+           "Phone": "0102030405",
+           "PanierMoyen": 0
       },
       {
            "id": 2,
@@ -92,7 +93,8 @@ Get the details of all customers registered in the CRM db
            "Age": 42,
            "Sexe": "f",
            "Email":	"Michelle@mimi.com",
-           "Phone": "0102089405"
+           "Phone": "0102089405",
+           "PanierMoyen": 780
          }
 ]
 ```
@@ -130,7 +132,8 @@ Get the details of a customer registered in the CRM db with ID.
        "Age": 42,
        "Sexe": "h",
        "Email":	"Jacquie@mimi.com",
-       "Phone": "0102030405"
+       "Phone": "0102030405",
+       "PanierMoyen": 900
      }
  ]
 ```
@@ -363,6 +366,7 @@ Get the list of all tickets
                 "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
                 "pointsFidelite": 0,
                 "modePaiement": "CASH",
+                "origin": "e-commerce",
                 "articles": [
                   {
                     "codeProduit": "X1-0",
@@ -387,6 +391,7 @@ Get the list of all tickets
                 "client": "a14e39ce-e29e-11e9-a8cb-08002751d198",
                 "pointsFidelite": 18,
                 "modePaiement": "CARD",
+                "origin": "e-commerce",
                 "articles": [
                   {
                     "codeProduit": "X1-4",
