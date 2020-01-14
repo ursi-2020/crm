@@ -554,6 +554,7 @@ def get_tickets(request):
         ticket['client'] = each_ticket['Client']
         ticket['pointsFidelite'] = each_ticket['PointsFidelite']
         ticket['modePaiement'] = each_ticket['ModePaiement']
+        ticket['origin'] = each_ticket['Origin']
         ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket['id']).values())
         ticket_array.append(ticket)
 
