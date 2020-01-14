@@ -183,11 +183,16 @@ def update_save_tickets(tickets, src):
                 else:
                     customer = Customer.objects.get(IdClient=t['client'])
                 customer.Credit = customer.Credit + int(t['prix']) / 2
+                # compute average basket
+                if customer.PanierMoyen != 0:
+                    customer.PanierMoyen = (customer.PanierMoyen + int(t['prix'])) / 2
+                else:
+                    customer.PanierMoyen = int(t['prix'])
                 customer.save()
 
                 # Save the ticket
                 new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src)
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
@@ -201,7 +206,7 @@ def update_save_tickets(tickets, src):
         else :
             # Save the ticket
             new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'])
+                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src)
             new_ticket.save()
             if t['articles'] != '':
                 for article in t['articles']:
@@ -536,6 +541,9 @@ def paiement(request):
 
 
 def get_tickets(request):
+    """
+    Add a parametter in the route to define if it's promo or BI and update Sended boolean or get a date
+    """
     tickets = list(Ticket.objects.all().values())
     ticket_array = []
     for each_ticket in tickets :

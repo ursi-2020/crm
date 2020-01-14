@@ -29,6 +29,7 @@ class Customer(models.Model):
     Sexe = models.CharField(max_length=5, default="")
     Email = models.CharField(max_length=200)
     Phone = models.CharField(max_length=200)
+    PanierMoyen = models.IntegerField(default=0)
 
 class PurchasedArticle(models.Model):
     codeProduit = models.CharField(max_length=200)
@@ -44,3 +45,4 @@ class Ticket(models.Model):
     Client = models.TextField(blank=False)
     PointsFidelite = models.IntegerField(default=0)
     ModePaiement = models.CharField(max_length=10)
+    Origin = models.TextField(blank=False)
