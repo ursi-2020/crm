@@ -45,4 +45,6 @@ class Ticket(models.Model):
     Client = models.TextField(blank=False)
     PointsFidelite = models.IntegerField(default=0)
     ModePaiement = models.CharField(max_length=10)
+    SendedBi = models.BooleanField(default=False)
+    SendedPromo = models.BooleanField(default=False)
     Origin = models.TextField(blank=False)

@@ -540,22 +540,30 @@ def paiement(request):
     return JsonResponse({"State": "finished"})
 
 
-def get_tickets(request):
+def get_tickets(request, src):
     """
     Add a parametter in the route to define if it's promo or BI and update Sended boolean or get a date
     """
-    tickets = list(Ticket.objects.all().values())
+    if src == 'bi':
+        tickets = Ticket.objects.filter(SendedBi=False)
+    else:
+        tickets = Ticket.objects.filter(SendedPromo=False)
     ticket_array = []
-    for each_ticket in tickets :
+    for each_ticket in tickets:
+        if src == 'bi':
+            each_ticket.SendedBi = True
+        else:
+            each_ticket.SendedPromo = True
+        each_ticket.save()
         ticket = {}
-        ticket['id'] = each_ticket['id']
-        ticket['date'] = each_ticket['DateTicket']
-        ticket['prix'] = each_ticket['Prix']
-        ticket['client'] = each_ticket['Client']
-        ticket['pointsFidelite'] = each_ticket['PointsFidelite']
-        ticket['modePaiement'] = each_ticket['ModePaiement']
-        ticket['origin'] = each_ticket['Origin']
-        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket['id']).values())
+        ticket['id'] = each_ticket.id
+        ticket['date'] = each_ticket.DateTicket
+        ticket['prix'] = each_ticket.Prix
+        ticket['client'] = each_ticket.Client
+        ticket['pointsFidelite'] = each_ticket.PointsFidelite
+        ticket['modePaiement'] = each_ticket.ModePaiement
+        ticket['origin'] = each_ticket.Origin
+        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.id).values())
         ticket_array.append(ticket)
 
     response_data = {'tickets' : ticket_array}
