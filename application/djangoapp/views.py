@@ -193,6 +193,7 @@ def update_save_tickets(tickets, src):
                 # Save the ticket
                 new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
                                     PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src)
+                                    #,CustomerPromo=t['CustomerPromo'], GlobalPromo=t['GlobalPromo'])
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
@@ -207,6 +208,7 @@ def update_save_tickets(tickets, src):
             # Save the ticket
             new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
                                 PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src)
+                                #,CustomerPromo=t['CustomerPromo'], GlobalPromo=t['GlobalPromo'])
             new_ticket.save()
             if t['articles'] != '':
                 for article in t['articles']:
@@ -564,6 +566,8 @@ def get_tickets(request, src):
         ticket['modePaiement'] = each_ticket.ModePaiement
         ticket['origin'] = each_ticket.Origin
         ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.id).values())
+        #ticket['CustomerPromo'] = each_ticket.CustomerPromo
+        #ticket['GlobalPromo'] = each_ticket.GlobalPromo
         ticket_array.append(ticket)
 
     response_data = {'tickets' : ticket_array}

@@ -48,3 +48,5 @@ class Ticket(models.Model):
     SendedBi = models.BooleanField(default=False)
     SendedPromo = models.BooleanField(default=False)
     Origin = models.TextField(blank=False)
+    CustomerPromo = models.IntegerField(default=0)
+    GlobalPromo = models.IntegerField(default=0)
