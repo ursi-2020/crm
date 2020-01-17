@@ -170,7 +170,7 @@ def credit_ecommerce(request):
 """
 Add credit to customers
 and save tickets in the DB
-Add the source of the ticket -> TODO
+Add the source of the ticket
 """
 def update_save_tickets(tickets, src):
     error = False
@@ -479,7 +479,7 @@ def generate_tickets(request):
                           }
                         ]}
     tickets_json = json.dumps(tickets)
-    return update_save_tickets(json.loads(tickets_json))
+    return update_save_tickets(json.loads(tickets_json), 'magasin')
 
 '''=======================================END E-COMMERCE==========================================='''
 
