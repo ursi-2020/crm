@@ -209,7 +209,7 @@ def update_save_tickets(tickets, src):
 
                 # Save the ticket
                 new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+t['id'])
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']))
                                     #,CustomerPromo=t['CustomerPromo'], GlobalPromo=t['GlobalPromo'])
                 new_ticket.save()
                 if t['articles'] != '':
@@ -224,7 +224,7 @@ def update_save_tickets(tickets, src):
         else :
             # Save the ticket
             new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+t['id'])
+                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']))
                                 #,CustomerPromo=t['CustomerPromo'], GlobalPromo=t['GlobalPromo'])
             new_ticket.save()
             if t['articles'] != '':

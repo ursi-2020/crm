@@ -40,7 +40,7 @@ class PurchasedArticle(models.Model):
     ticket = models.ForeignKey('Ticket', related_name='purchased_articles', on_delete=models.CASCADE)
 
 class Ticket(models.Model):
-    uid = models.TextField(blank=False)
+    uid = models.TextField(blank=False, primary_key=True)
     DateTicket = models.DateField(blank=True, null=True)
     Prix = models.IntegerField(default=0)
     Client = models.TextField(blank=False)
