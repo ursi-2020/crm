@@ -220,7 +220,7 @@ def update_save_tickets(tickets, src):
                             new_article = PurchasedArticle(codeProduit=article['codeProduit'],
                                                            prixAvant=article['prix'], prixApres=article['prixApres'],
                                                            promo=article['promo'], quantity=article['quantity'],
-                                                           ticket=src+str(t['id']))
+                                                           ticket=new_ticket)
                             new_article.save()
                 except ObjectDoesNotExist:
                     error = True
@@ -235,7 +235,7 @@ def update_save_tickets(tickets, src):
                         new_article = PurchasedArticle(codeProduit=article['codeProduit'],
                                                        prixAvant=article['prix'], prixApres=article['prixApres'],
                                                        promo=article['promo'], quantity=article['quantity'],
-                                                       ticket=src+str(t['id']))
+                                                       ticket=new_ticket)
                         new_article.save()
     if error:
         return JsonResponse({"Error": "Client does not exist"})
