@@ -192,7 +192,7 @@ def update_save_tickets(tickets, src):
 
                 # Save the ticket
                 new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src)
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+t['id'])
                                     #,CustomerPromo=t['CustomerPromo'], GlobalPromo=t['GlobalPromo'])
                 new_ticket.save()
                 if t['articles'] != '':
@@ -207,7 +207,7 @@ def update_save_tickets(tickets, src):
         else :
             # Save the ticket
             new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src)
+                                PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+t['id'])
                                 #,CustomerPromo=t['CustomerPromo'], GlobalPromo=t['GlobalPromo'])
             new_ticket.save()
             if t['articles'] != '':
@@ -558,7 +558,7 @@ def get_tickets(request, src):
             each_ticket.SendedPromo = True
         each_ticket.save()
         ticket = {}
-        ticket['id'] = each_ticket.id
+        ticket['uid'] = each_ticket.uid
         ticket['date'] = each_ticket.DateTicket
         ticket['prix'] = each_ticket.Prix
         ticket['client'] = each_ticket.Client
