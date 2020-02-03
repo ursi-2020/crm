@@ -92,11 +92,28 @@ def add_promo(request):
     return HttpResponse(res)
 
 def test(request):
-    body = {
-        "email": "eddison@ursi.fr"
-    }
-    api.post_request2('crm', 'api/data/email', json.dumps(body))
-    return HttpResponse("sended")
+    """
+        get all tickets
+        """
+    tickets = Ticket.objects.all()
+    ticket_array = []
+    for each_ticket in tickets:
+        ticket = {}
+        ticket['uid'] = each_ticket.uid
+        ticket['date'] = each_ticket.DateTicket
+        ticket['prix'] = each_ticket.Prix
+        ticket['client'] = each_ticket.Client
+        ticket['pointsFidelite'] = each_ticket.PointsFidelite
+        ticket['modePaiement'] = each_ticket.ModePaiement
+        ticket['origin'] = each_ticket.Origin
+        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.id).values())
+        # ticket['CustomerPromo'] = each_ticket.CustomerPromo
+        # ticket['GlobalPromo'] = each_ticket.GlobalPromo
+        ticket_array.append(ticket)
+
+    response_data = {'tickets': ticket_array}
+
+    return JsonResponse(response_data, content_type="application/json")
 
 
 def update_db(request):
