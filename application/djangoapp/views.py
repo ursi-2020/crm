@@ -99,6 +99,7 @@ def test(request):
     ticket_array = []
     for each_ticket in tickets:
         ticket = {}
+        ticket['id'] = each_ticket.id
         ticket['uid'] = each_ticket.uid
         ticket['date'] = each_ticket.DateTicket
         ticket['prix'] = each_ticket.Prix
@@ -197,24 +198,24 @@ def update_save_tickets(tickets, src):
             Promo_client = 0
             promo_client_produit = 0
             promo=0
-            if src == 'magasin' and t['promo_client']:
+            if src == 'magasin' and 'promo_client' in t:
                 Promo_client = t['promo_client']
-            elif src == 'e-commerce' and t['articles']:
-                if t['articles'][0]['promo_client']:
+            elif src == 'e-commerce' and len(t['articles']) != 0:
+                if 'promo_client' in t['articles'][0]:
                     Promo_client = t['articles'][0]['promo_client']
 
-            if src == 'magasin' and t['articles']:
-                if t['articles']['promo_client_produit']:
+            if src == 'magasin' and 'articles' in t:
+                if 'promo_client_produit' in t['articles']:
                     promo_client_produit = t['promo_client_produit']
-            elif src == 'e-commerce' and t['articles']:
-                if t['articles'][0]['promo_client_produit']:
+            elif src == 'e-commerce' and len(t['articles']) != 0:
+                if 'promo_client_produit' in t['articles'][0]:
                     promo_client_produit = t['articles'][0]['promo_client_produit']
 
-            if src == 'magasin' and t['articles']:
-                if t['articles']['promo']:
+            if src == 'magasin' and 'articles' in t:
+                if 'promo' in t['articles']:
                     promo = t['promo']
-            elif src == 'e-commerce' and t['articles']:
-                if t['articles'][0]['promo']:
+            elif src == 'e-commerce' and len(t['articles']) != 0:
+                if ['promo'] in t['articles'][0]:
                     promo = t['articles'][0]['promo']
             if t['client'] != '':
                 try:
@@ -598,6 +599,7 @@ def get_tickets(request, src):
             each_ticket.SendedPromo = True
         each_ticket.save()
         ticket = {}
+        ticket['id'] = each_ticket.id
         ticket['uid'] = each_ticket.uid
         ticket['date'] = each_ticket.DateTicket
         ticket['prix'] = each_ticket.Prix
