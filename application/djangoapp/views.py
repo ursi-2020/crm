@@ -107,8 +107,7 @@ def test(request):
         ticket['modePaiement'] = each_ticket.ModePaiement
         ticket['origin'] = each_ticket.Origin
         ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.uid).values())
-        # ticket['CustomerPromo'] = each_ticket.CustomerPromo
-        # ticket['GlobalPromo'] = each_ticket.GlobalPromo
+        ticket['Promo_client'] = each_ticket.Promo_client
         ticket_array.append(ticket)
 
     response_data = {'tickets': ticket_array}
@@ -212,14 +211,14 @@ def update_save_tickets(tickets, src):
 
                     # Save the ticket
                     new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                        PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), GlobalPromo=t['promo_client']if src=='magasin' else t['articles'][0]['promo_client'])
+                                        PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), Promo_client=t['promo_client']if src=='magasin' else t['articles'][0]['promo_client']if t['articles']!=[] else 0)
 
                     new_ticket.save()
                     if t['articles'] != '':
                         for article in t['articles']:
                             new_article = PurchasedArticle(codeProduit=article['codeProduit'],
                                                            prixAvant=article['prix'], prixApres=article['prixApres'],
-                                                           promo=article['promo'], CustomerPromo=t['promo_client_produit'], quantity=article['quantity'],
+                                                           promo=article['promo'], promo_client_produit=t['promo_client_produit'], quantity=article['quantity'],
                                                            ticket=new_ticket)
                             new_article.save()
                 except ObjectDoesNotExist:
@@ -227,13 +226,13 @@ def update_save_tickets(tickets, src):
             else :
                 # Save the ticket
                 new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), GlobalPromo=t['promo_client']if src=='magasin' else t['articles'][0]['promo_client'])
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), Promo_client=t['promo_client']if src=='magasin' else t['articles'][0]['promo_client'] if t['articles']!=[] else 0)
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
                         new_article = PurchasedArticle(codeProduit=article['codeProduit'],
                                                        prixAvant=article['prix'], prixApres=article['prixApres'],
-                                                       promo=article['promo'], CustomerPromo=t['promo_client_produit'], quantity=article['quantity'],
+                                                       promo=article['promo'], promo_client_produit=t['promo_client_produit'], quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
     if error:
@@ -585,8 +584,7 @@ def get_tickets(request, src):
         ticket['modePaiement'] = each_ticket.ModePaiement
         ticket['origin'] = each_ticket.Origin
         ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.uid).values())
-        #ticket['CustomerPromo'] = each_ticket.CustomerPromo
-        #ticket['GlobalPromo'] = each_ticket.GlobalPromo
+        ticket['Promo_client'] = each_ticket.Promo_client
         ticket_array.append(ticket)
 
     response_data = {'tickets' : ticket_array}

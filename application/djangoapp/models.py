@@ -36,7 +36,7 @@ class PurchasedArticle(models.Model):
     prixAvant = models.IntegerField(default=0)
     prixApres = models.IntegerField(default=0)
     promo = models.IntegerField(default=0)
-    CustomerPromo = models.IntegerField(default=0)
+    promo_client_produit = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
     ticket = models.ForeignKey('Ticket', related_name='purchased_articles', on_delete=models.CASCADE)
 
@@ -50,4 +50,4 @@ class Ticket(models.Model):
     SendedBi = models.BooleanField(default=False)
     SendedPromo = models.BooleanField(default=False)
     Origin = models.TextField(blank=False)
-    GlobalPromo = models.IntegerField(default=0)
+    Promo_client = models.IntegerField(default=0)
