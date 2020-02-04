@@ -194,6 +194,28 @@ def update_save_tickets(tickets, src):
         try:
             Ticket.objects.get(uid=src+str(t['id']))
         except Ticket.DoesNotExist:
+            Promo_client = 0
+            promo_client_produit = 0
+            promo=0
+            if src == 'magasin' and t['promo_client']:
+                Promo_client = t['promo_client']
+            elif src == 'e-commerce' and t['articles']:
+                if t['articles'][0]['promo_client']:
+                    Promo_client = t['articles'][0]['promo_client']
+
+            if src == 'magasin' and t['articles']:
+                if t['articles']['promo_client_produit']:
+                    promo_client_produit = t['promo_client_produit']
+            elif src == 'e-commerce' and t['articles']:
+                if t['articles'][0]['promo_client_produit']:
+                    promo_client_produit = t['articles'][0]['promo_client_produit']
+
+            if src == 'magasin' and t['articles']:
+                if t['articles']['promo']:
+                    promo = t['promo']
+            elif src == 'e-commerce' and t['articles']:
+                if t['articles'][0]['promo']:
+                    promo = t['articles'][0]['promo']
             if t['client'] != '':
                 try:
                     # Update customer fidelity points
@@ -211,14 +233,14 @@ def update_save_tickets(tickets, src):
 
                     # Save the ticket
                     new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                        PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), Promo_client=t['promo_client']if src=='magasin' else t['articles'][0]['promo_client']if t['articles']!=[] else 0)
+                                        PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), Promo_client=Promo_client)
 
                     new_ticket.save()
                     if t['articles'] != '':
                         for article in t['articles']:
                             new_article = PurchasedArticle(codeProduit=article['codeProduit'],
                                                            prixAvant=article['prix'], prixApres=article['prixApres'],
-                                                           promo=article['promo'], promo_client_produit=t['promo_client_produit'], quantity=article['quantity'],
+                                                           promo=promo, promo_client_produit=promo_client_produit, quantity=article['quantity'],
                                                            ticket=new_ticket)
                             new_article.save()
                 except ObjectDoesNotExist:
@@ -226,13 +248,13 @@ def update_save_tickets(tickets, src):
             else :
                 # Save the ticket
                 new_ticket = Ticket(DateTicket=parse_datetime(t['date']), Prix=t['prix'], Client=t['client'],
-                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), Promo_client=t['promo_client']if src=='magasin' else t['articles'][0]['promo_client'] if t['articles']!=[] else 0)
+                                    PointsFidelite=t['pointsFidelite'], ModePaiement=t['modePaiement'], Origin=src, uid=src+str(t['id']), Promo_client=Promo_client)
                 new_ticket.save()
                 if t['articles'] != '':
                     for article in t['articles']:
                         new_article = PurchasedArticle(codeProduit=article['codeProduit'],
                                                        prixAvant=article['prix'], prixApres=article['prixApres'],
-                                                       promo=article['promo'], promo_client_produit=t['promo_client_produit'], quantity=article['quantity'],
+                                                       promo=promo, promo_client_produit=promo_client_produit, quantity=article['quantity'],
                                                        ticket=new_ticket)
                         new_article.save()
     if error:
