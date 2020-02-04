@@ -107,7 +107,7 @@ def test(request):
         ticket['pointsFidelite'] = each_ticket.PointsFidelite
         ticket['modePaiement'] = each_ticket.ModePaiement
         ticket['origin'] = each_ticket.Origin
-        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.uid).values())
+        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.id).values())
         ticket['Promo_client'] = each_ticket.Promo_client
         ticket_array.append(ticket)
 
@@ -607,7 +607,7 @@ def get_tickets(request, src):
         ticket['pointsFidelite'] = each_ticket.PointsFidelite
         ticket['modePaiement'] = each_ticket.ModePaiement
         ticket['origin'] = each_ticket.Origin
-        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.uid).values())
+        ticket['articles'] = list(PurchasedArticle.objects.filter(ticket=each_ticket.id).values())
         ticket['Promo_client'] = each_ticket.Promo_client
         ticket_array.append(ticket)
 
